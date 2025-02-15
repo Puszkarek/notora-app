@@ -1,0 +1,11 @@
+<button appAction="icon-secondary" class="bg-white" (click)="setPreviousDayDate()">
+  <app-icon iconID="arrow-left"></app-icon>
+</button>
+<app-form-field>
+  <label>Escolha a data</label>
+  <input appInput type="date" [formControl]="dateControl" />
+  <!-- TODO: Create a custom dater picker -->
+</app-form-field>
+<button appAction="icon-secondary" class="bg-white" (click)="setNextDayDate()">
+  <app-icon iconID="arrow-right"></app-icon>
+</button>

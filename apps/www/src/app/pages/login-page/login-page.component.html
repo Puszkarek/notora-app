@@ -1,0 +1,21 @@
+<div class="header">
+  <h2 class="title">Logar</h2>
+  <p class="subtitle">Utilize sua conta Google para acessar o sistema</p>
+</div>
+<form class="content" (keydown.enter)="loginUser()">
+  <button
+    appAction="primary"
+    [shadow]="true"
+    data-test="login-submit"
+    class="submit-button"
+    type="button"
+    (click)="loginUser()">
+    <app-icon iconID="google"></app-icon>
+    Google</button
+  >
+
+  <p class="register-warning">
+    Ainda não possui conta?
+    <a class="register-link" routerLink="/register">Registre-se</a>
+  </p>
+</form>

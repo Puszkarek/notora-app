@@ -1,0 +1,19 @@
+:host ::ng-deep {
+  .error {
+    @apply overflow-hidden text-nowrap text-ellipsis;
+    @apply text-xs text-red-700;
+  }
+
+  label {
+    @apply block;
+    @apply text-sm font-semibold text-nowrap;
+  }
+}
+
+:host {
+  @apply flex flex-col m-0;
+  .header {
+    @apply flex items-center gap-alley;
+    @apply mb-1;
+  }
+}

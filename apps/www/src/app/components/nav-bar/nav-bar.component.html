@@ -1,0 +1,61 @@
+@if (useMobileStyles) {
+  <!-- * Mobile Version -->
+  <h1 class="logo-container">App</h1>
+
+  <div class="container main-items-container">
+    @for (action of mainActions$ | async; track action.label) {
+      <a
+        (click)="toggleSidebar()"
+        class="action"
+        [routerLink]="action.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon class="nav-bar-action-icon" [iconID]="action.icon" />
+        <div class="action-label"> {{ action.label }}</div>
+      </a>
+    }
+  </div>
+  <div class="container footer-items-container">
+    <div class="footer-line vertical-line"></div>
+    @for (action of footerActions$ | async; track action.label) {
+      <a
+        (click)="toggleSidebar()"
+        class="action"
+        [routerLink]="action.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon class="nav-bar-action-icon" [iconID]="action.icon" [style.color]="action.color" />
+        <div class="action-label" [style.color]="action.color"> {{ action.label }}</div>
+      </a>
+    }
+  </div>
+} @else {
+  <!-- * Desktop Version -->
+  <div class="container main-items-container">
+    @for (action of mainActions$ | async; track action.label) {
+      <a
+        (click)="toggleSidebar()"
+        class="action"
+        [appTooltip]="action.label"
+        [routerLink]="action.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon [iconID]="action.icon" class="nav-bar-action-icon" />
+      </a>
+    }
+  </div>
+  <div class="container footer-items-container">
+    <div class="footer-line vertical-line"></div>
+    @for (action of footerActions$ | async; track action.label) {
+      <a
+        (click)="toggleSidebar()"
+        class="action"
+        [appTooltip]="action.label"
+        [routerLink]="action.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon class="nav-bar-action-icon" [iconID]="action.icon" [style.color]="action.color" />
+      </a>
+    }
+  </div>
+}

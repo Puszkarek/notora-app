@@ -1,0 +1,19 @@
+:host {
+  @apply max-w-md;
+  @apply bg-white border-2 border-solid border-black shadow-regular;
+  @apply m-alley;
+
+  .description {
+    @apply text-base font-semibold;
+  }
+
+  app-form-field {
+    @apply w-full;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :host {
+    @apply m-0;
+  }
+}

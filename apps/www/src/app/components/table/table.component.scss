@@ -1,0 +1,54 @@
+:host {
+  @apply block border-2 border-b-0 border-solid border-black;
+  @apply bg-white;
+  @apply m-0 p-0;
+}
+
+.table-container {
+  @apply w-full;
+}
+
+.table-options-button {
+  @apply text-xs p-2;
+}
+.table-header-cell,
+.table-cell {
+  @apply text-xs;
+  @apply py-alley px-2;
+}
+
+.table-row,
+.table-header-row {
+  @apply border-0 border-b-2 border-solid border-black;
+}
+
+.table-header-row {
+  @apply bg-grey-100 font-bold text-sm text-left;
+}
+
+.table-row {
+  @apply text-base;
+}
+
+.table-options-button {
+  @apply w-auto;
+}
+
+.table-options-cell {
+  @apply text-right justify-end;
+}
+
+@media (min-width: 768px) {
+  .table-options-button,
+  .table-header-cell,
+  .table-cell {
+    @apply text-base p-alley;
+  }
+}
+
+@media (max-width: 380px) {
+  .table-cell {
+    @apply overflow-hidden text-ellipsis text-nowrap whitespace-nowrap;
+    @apply max-w-[180px];
+  }
+}

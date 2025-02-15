@@ -1,0 +1,28 @@
+@if (background$ | async; as backgroundImage) {
+  <!-- * Remove current image -->
+  <button appTooltip="Remover imagem" (click)="removeFile()" class="delete-icon">
+    <app-icon iconID="trash3" />
+  </button>
+  <!-- * Upload trigger -->
+  <div (click)="openFilePicker()" class="container" [style.background-image]="background$ | async">
+    <app-icon
+      [iconID]="(uploadIconID$ | async) || 'plus-lg'"
+      [class.hover-icon]="showUploadIconOnHover$ | async"
+      class="upload-icon"></app-icon>
+  </div>
+} @else {
+  <!-- * Reset form button (if it has one) -->
+  @if (savedBackground$ | async; as savedBackground) {
+    <button appTooltip="Voltar imagem original" (click)="resetOriginal(savedBackground)" class="reset-icon">
+      <app-icon iconID="arrow-counterclockwise" />
+    </button>
+  }
+  <!-- * Upload trigger -->
+  <div (click)="openFilePicker()" class="container">
+    <app-icon
+      [iconID]="(uploadIconID$ | async) || 'plus-lg'"
+      [class.hover-icon]="showUploadIconOnHover$ | async"
+      class="upload-icon" />
+  </div>
+}
+<!-- * Upload icon -->

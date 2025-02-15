@@ -1,0 +1,18 @@
+:host {
+  @apply flex flex-col;
+  @apply h-full w-full;
+  @apply overflow-hidden;
+  @apply bg-brown-100;
+}
+
+.wrapper {
+  @apply flex h-full overflow-hidden;
+
+  .app-container {
+    display: block;
+    overflow: auto;
+
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,10 @@
+:host {
+  @apply flex flex-col justify-center items-center;
+}
+
+.no-results {
+  @apply font-bold text-center;
+  @apply p-5;
+
+  color: #858585;
+}

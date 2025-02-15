@@ -1,0 +1,42 @@
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=20.10.0
+FROM node:${NODE_VERSION}-slim as build
+
+# NodeJS/Prisma app lives here
+WORKDIR /root
+
+# Set environment
+ENV PORT=3333
+
+# Install system dependencies
+COPY decorate-angular-cli.js ./
+COPY package*.json ./
+RUN npm ci
+
+# Copy the rest of your app's source code
+COPY . .
+
+# Generate Prisma Client
+RUN npm run prisma:generate
+
+# Build Alpha API
+RUN npm run build:api:alpha
+
+# Start a new, final stage to get a clean image
+FROM node:${NODE_VERSION}-alpine as production
+
+WORKDIR /root
+
+# Install only production dependencies
+# Copy only the compiled app
+COPY --from=build /root/dist/apps/api ./
+# Copy the prisma schema
+COPY --from=build /root/apps/api/prisma/schema.prisma ./prisma/
+
+RUN npm ci --ignore-scripts
+
+# Generate Prisma Client (again)
+RUN npx prisma generate
+
+# Start the server by default, this can be overwritten at runtime
+CMD [ "node","--enable-source-maps", "main.js" ]

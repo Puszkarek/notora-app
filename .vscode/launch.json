@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
+  "configurations": [
+    {
+      "name": "API: Serve",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "serve:api"],
+      "outputCapture": "std",
+      "internalConsoleOptions": "openOnSessionStart",
+      "console": "internalConsole",
+      "env": {
+        "TS_NODE_IGNORE": "false",
+        "TS_NODE_PROJECT": "${workspaceFolder}/apps/api/tsconfig.json"
+      },
+      "cwd": "${workspaceFolder}/apps/api/"
+    }
+  ]
+}

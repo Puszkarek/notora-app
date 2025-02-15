@@ -1,0 +1,7 @@
+:host {
+  @apply block w-full;
+  .trigger {
+    @apply text-base leading-relaxed;
+    @apply min-w-[200px];
+  }
+}

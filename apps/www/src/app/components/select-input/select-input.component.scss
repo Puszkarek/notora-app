@@ -1,0 +1,14 @@
+:host {
+  .select-input-trigger-content {
+    @apply flex flex-col w-full;
+  }
+
+  .select-input-label {
+    @apply text-xs text-black font-semibold;
+  }
+
+  .trigger {
+    @apply text-base leading-relaxed;
+    @apply min-w-[200px] w-full;
+  }
+}

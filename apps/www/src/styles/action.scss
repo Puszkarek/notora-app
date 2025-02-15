@@ -1,0 +1,66 @@
+.action {
+  @apply py-3 px-4;
+  @apply cursor-pointer;
+}
+
+.action-primary {
+  @apply text-center text-black font-semibold;
+  @apply border-2 border-solid border-black;
+  @apply bg-purple-500;
+
+  &:hover {
+    @apply bg-purple-700;
+  }
+}
+
+.action-secondary {
+  @apply text-center text-black font-semibold;
+  @apply border-2 border-solid border-black;
+  @apply bg-white;
+
+  &:hover {
+    @apply bg-grey-100;
+  }
+}
+
+.action-outlined {
+  @apply text-center text-black font-semibold;
+  @apply border-2 border-solid border-black;
+
+  &:hover {
+    @apply brightness-95;
+  }
+}
+
+// * Icons
+
+.action-icon-primary,
+.action-icon-secondary {
+  @apply p-2;
+  @apply p-3;
+
+  @apply border-2 border-solid border-black;
+  @apply transition-all duration-100;
+
+  &:hover {
+    @apply brightness-105 shadow-regular-sm;
+  }
+}
+
+// * Custom Styles
+
+.action-shadow {
+  @apply shadow-regular;
+}
+
+/* button {
+  &:active,
+  &:focus {
+    @apply outline-none transform scale-95;
+  }
+
+  :hover {
+    @apply transform-none;
+  }
+}
+ */

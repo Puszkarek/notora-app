@@ -1,0 +1,34 @@
+name: Validate Alpha
+on:
+  pull_request:
+    types:
+      - ready_for_review
+      - synchronize
+      - opened
+    branches: [dev]
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    concurrency: deploy-group
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 20.10.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.10.0
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'dev'
+
+      - name: Build Projects
+        run: npx nx affected -t build --parallel=3 --configuration=alpha

@@ -1,0 +1,19 @@
+.custom-input {
+  @apply w-full;
+  @apply text-start text-black font-semibold;
+  @apply py-3 px-4;
+  @apply border-2 border-solid border-black;
+  @apply bg-[#FEFFFD];
+
+  &:active,
+  &:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    @apply bg-grey-100 border-grey-500 text-grey-500;
+    @apply cursor-not-allowed;
+    outline: none;
+  }
+}

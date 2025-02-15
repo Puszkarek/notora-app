@@ -1,0 +1,48 @@
+:host {
+  @apply relative h-[134px] w-[134px];
+  @apply text-base text-black;
+}
+
+.delete-icon,
+.reset-icon,
+.upload-icon {
+  @apply p-1;
+  @apply border-2 border-solid border-black;
+}
+
+.delete-icon {
+  @apply absolute top-1 right-1;
+  @apply bg-red-300;
+}
+
+.reset-icon {
+  @apply absolute top-1 right-1;
+  @apply bg-blue-300;
+}
+
+.upload-icon {
+  @apply bg-green-300;
+}
+
+.container {
+  @apply block;
+  @apply h-full w-full;
+  @apply border-2 border-solid border-black;
+  @apply bg-center bg-cover;
+
+  // Centrilize
+  @apply flex items-center justify-center;
+
+  &:hover {
+    @apply bg-purple-100 bg-opacity-5;
+    @apply cursor-pointer;
+
+    .hover-icon {
+      @apply visible;
+    }
+  }
+
+  .hover-icon {
+    @apply invisible;
+  }
+}

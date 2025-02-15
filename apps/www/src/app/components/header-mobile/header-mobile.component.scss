@@ -1,0 +1,13 @@
+:host {
+  @apply w-full;
+  @apply flex flex-col items-stretch justify-stretch;
+  @apply p-alley px-7;
+  @apply z-[200];
+  @apply text-2xl;
+  @apply bg-black text-[#F7F7F7];
+
+  .sidebar-toggle {
+    @apply cursor-pointer;
+    @apply self-end;
+  }
+}

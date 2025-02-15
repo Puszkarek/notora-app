@@ -1,0 +1,18 @@
+<!-- * Main -->
+@if (isAuthenticated()) {
+  @if (isMobile()) {
+    <app-header-mobile [isSideBarOpen]="isSidebarOpened()" (sidebarToggle)="toggleSidebar()" />
+  }
+}
+
+<div class="wrapper">
+  @if (isAuthenticated()) {
+    <app-nav-bar [isOpened]="isSidebarOpened()" [useMobileStyles]="isMobile()" (sidebarToggle)="toggleSidebar()" />
+  }
+  <div class="app-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- * Notification Portal -->
+<ng-template cdkPortal></ng-template>

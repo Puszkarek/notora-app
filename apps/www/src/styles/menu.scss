@@ -1,0 +1,16 @@
+.context-menu {
+  @apply flex flex-col;
+  @apply border-2 border-b-0 border-solid border-black;
+  @apply bg-white;
+}
+
+.context-menu-item {
+  @apply flex justify-between items-center gap-2;
+  @apply py-3 px-4;
+  @apply cursor-pointer;
+  @apply border-0 border-b-2 border-solid border-black;
+
+  &:hover {
+    @apply bg-grey-100;
+  }
+}

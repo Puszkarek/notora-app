@@ -1,0 +1,42 @@
+<!-- TODO: Add Pagination -->
+<table class="table-container" cdk-table [dataSource]="dataSource">
+  @for (column of columns$ | async; track column) {
+    <ng-container [cdkColumnDef]="column.key">
+      <th class="table-header-cell" cdk-header-cell *cdkHeaderCellDef> {{ column.label }}</th>
+      <td class="table-cell" cdk-cell *cdkCellDef="let element"> {{ element[column.key] }} </td>
+    </ng-container>
+  }
+  <ng-container cdkColumnDef="options">
+    <th class="table-header-cell table-options-cell" cdk-header-cell *cdkHeaderCellDef></th>
+    <td class="table-cell table-options-cell" cdk-cell *cdkCellDef="let element">
+      <button
+        [cdkMenuTriggerFor]="menu"
+        class="table-options-button"
+        appAction="icon-primary"
+        appTooltip="Opções"
+        aria-label="Edit">
+        <app-icon iconID="three-dots-vertical" />
+      </button>
+      <ng-template #menu>
+        <div class="context-menu" cdkMenu>
+          @for (command of commands$ | async; track command) {
+            <button class="context-menu-item" cdkMenuItem (click)="command.action(element)">
+              {{ command.label }}
+              <app-icon [iconID]="command.iconID" />
+            </button>
+          }
+        </div>
+      </ng-template>
+    </td>
+  </ng-container>
+  <tr class="table-row" *cdkNoDataRow>
+    <td
+      class="table-cell text-center text-grey-500 font-semibold"
+      [attr.colspan]="(displayedColumns$ | async)?.length ?? 1">
+      Nenhum registro encontrado
+    </td>
+  </tr>
+
+  <tr class="table-header-row" cdk-header-row *cdkHeaderRowDef="displayedColumns$ | async"></tr>
+  <tr class="table-row" cdk-row *cdkRowDef="let row; columns: displayedColumns$ | async"></tr>
+</table>

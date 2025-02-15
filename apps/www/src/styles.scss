@@ -1,0 +1,59 @@
+@use 'sass:meta';
+/* CDK Overlay styles */
+@import '~@angular/cdk/overlay-prebuilt.css';
+
+/* Tailwind rules  **/
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@include meta.load-css('styles/dropdown.scss');
+@include meta.load-css('styles/action.scss');
+@include meta.load-css('styles/menu.scss');
+@include meta.load-css('styles/input.scss');
+@include meta.load-css('styles/modal.scss');
+@include meta.load-css('styles/bootstrap-icons.scss');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+// * Default styles
+html,
+body {
+  @apply h-full;
+}
+
+body {
+  @apply font-lexend-mega;
+  @apply m-0;
+}
+
+* {
+  @apply box-border;
+
+  /* Chrome, Edge, and Safari */
+  &::-webkit-scrollbar {
+    @apply w-[10px] p-1;
+  }
+
+  /* The scrollbar track color and width */
+  &::-webkit-scrollbar-track {
+    @apply border-[5px];
+    @apply bg-grey-100;
+  }
+
+  /* The scrollbar thumb */
+  &::-webkit-scrollbar-thumb {
+    @apply bg-grey-500;
+  }
+}
+
+// * Custom styles
+.vertical-line {
+  @apply w-full h-[2px] bg-black;
+}
+
+.modal-backdrop {
+  background: rgba(199, 192, 209, 0.4);
+
+  backdrop-filter: blur(0.4rem);
+}

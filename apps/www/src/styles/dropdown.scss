@@ -1,0 +1,20 @@
+.dropdown-item-input {
+  @apply mb-0 p-alley;
+  @apply w-full;
+  @apply border-none;
+  @apply bg-white text-black;
+  @apply cursor-pointer;
+  @apply overflow-ellipsis;
+
+  &:hover {
+    @apply bg-grey-100;
+  }
+
+  &[selected='true'] {
+    @apply bg-grey-100;
+  }
+}
+
+.dropdown-items-container {
+  @apply border-2 border-solid border-black;
+}

@@ -1,0 +1,11 @@
+:host {
+  @apply w-full;
+  @apply flex justify-between items-end;
+  @apply gap-2;
+}
+
+@media (min-width: 768px) {
+  :host {
+    @apply gap-alley;
+  }
+}

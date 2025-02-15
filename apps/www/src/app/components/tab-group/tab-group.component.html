@@ -1,0 +1,13 @@
+<div class="tab-control-container">
+  @for (tab of tabs; track tab.label; let tabIndex = $index) {
+    <button
+      (click)="selectTab(tabIndex)"
+      appAction="secondary"
+      class="tab-control"
+      [class.selected]="tabIndex === (selectedTabIndex$ | async)">
+      {{ tab.label }}
+    </button>
+  }
+</div>
+
+<ng-content></ng-content>

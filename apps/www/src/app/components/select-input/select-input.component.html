@@ -1,0 +1,27 @@
+<button
+  data-test="select-input-trigger"
+  class="custom-input"
+  #trigger
+  aria-haspopup="listbox"
+  [appDropdownTrigger]="dropdownList">
+  <div class="select-input-trigger-content">
+    @if (label) {
+      <div class="select-input-label">{{ label }}</div>
+    }
+    {{ (selectedLabel$ | async) ?? 'Selecionar' }}
+  </div>
+</button>
+<ng-template #dropdownList>
+  <app-dropdown class="dropdown-items-container" [style.width.px]="trigger.offsetWidth">
+    <div
+      *ngFor="let item of items; trackBy: trackByValue"
+      [attr.selected]="item.value === (selectedValue$ | async)"
+      (click)="updateSelectedValue(item.value)"
+      (keyup.enter)="updateSelectedValue(item.value)"
+      class="dropdown-item-input"
+      tabindex="0"
+      role="option"
+      >{{ item.label }}</div
+    >
+  </app-dropdown>
+</ng-template>

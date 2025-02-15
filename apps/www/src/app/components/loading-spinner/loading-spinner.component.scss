@@ -1,0 +1,21 @@
+:host {
+  .spinner {
+    @apply inline-block w-20 h-20;
+
+    &:after {
+      content: ' ';
+      @apply block w-16 h-16 m-2;
+      @apply border-8 border-solid border-black rounded-[50%];
+      border-color: black transparent black transparent;
+      animation: infinity-rotation 1.2s linear infinite;
+    }
+  }
+}
+@keyframes infinity-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

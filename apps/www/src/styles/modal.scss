@@ -1,0 +1,23 @@
+.modal-header,
+.modal-content,
+.modal-actions-container {
+  @apply p-alley;
+}
+
+.modal-header {
+  @apply bg-grey-100 border-0 border-b-2 border-solid border-black;
+  .modal-title {
+    @apply text-xl font-bold;
+  }
+}
+
+.modal-content {
+  @apply flex flex-col justify-start items-stretch;
+  @apply gap-alley;
+}
+
+.modal-actions-container {
+  @apply bg-grey-100 border-0 border-t-2 border-solid border-black;
+  @apply flex justify-between items-center;
+  @apply pt-alley gap-alley;
+}

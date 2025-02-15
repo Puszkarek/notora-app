@@ -1,0 +1,27 @@
+<input
+  appInput
+  data-test="select-input-trigger"
+  class="trigger"
+  [formControl]="inputControl"
+  #trigger
+  [placeholder]="placeholder"
+  aria-haspopup="listbox"
+  [appDropdownTrigger]="dropdownList" />
+
+<ng-template #dropdownList>
+  @if (((items$ | async)?.length ?? 0) > 0) {
+    <app-dropdown class="dropdown-items-container" [style.width.px]="trigger.offsetWidth">
+      @for (item of items$ | async; track item) {
+        <div
+          [attr.selected]="item === (inputValue$ | async)"
+          (click)="updateSelectedValue(item)"
+          (keyup.enter)="updateSelectedValue(item)"
+          class="dropdown-item-input"
+          tabindex="0"
+          role="option"
+          >{{ item }}</div
+        >
+      }
+    </app-dropdown>
+  }
+</ng-template>

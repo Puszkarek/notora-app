@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+model Restaurant {
+  id                     String       @id @db.Uuid()
+  name                   String       @db.VarChar(255)
+  address                String       @db.VarChar(255)
+  description            String?      @db.VarChar(2083)
+  phone                  String?      @db.VarChar(255)
+  email                  String?      @db.VarChar(255)
+  whatsapp               String?      @db.VarChar(2083)
+  facebook               String?      @db.VarChar(2083)
+  instagram              String?      @db.VarChar(2083)
+  website                String?      @db.VarChar(2083)
+  createdAt              DateTime     @default(now())
+  isClosed               Boolean      @default(true)
+  serviceFeeInPercentage Int?
+  bills                  Bill[]
+  tables                 Table[]
+  menus                  Menu[]
+  orderedMenuIDs         String[]
+  organization           Organization @relation(fields: [organizationID], references: [id], onDelete: Cascade)
+  organizationID         String       @unique @db.Uuid()
+  theme                  Theme?       @relation(fields: [themeID], references: [id], onDelete: Cascade)
+  themeID                String?      @unique @db.Uuid()
+
+  @@map("restaurants")
+}
+
+model Theme {
+  id    String    @id @db.Uuid()
+  type  ThemeType
+  value String
+
+  restaurant Restaurant?
+
+  @@map("themes")
+}
+
+model Subscription {
+  id          String    @id
+  externalID  String    @unique
+  price       Int
+  interval    Interval
+  createdAt   DateTime
+  cancelAt    DateTime?
+  digitalMenu Boolean
+  supervision Boolean
+
+  organization   Organization @relation(fields: [organizationID], references: [id])
+  organizationID String       @unique @db.Uuid()
+
+  @@map("subscriptions")
+}
+
+model Organization {
+  id   String @id @db.Uuid()
+  name String @db.VarChar(255)
+
+  owner   User?   @relation("owner", fields: [ownerID], references: [id])
+  ownerID String? @unique @db.Uuid()
+
+  restaurant   Restaurant?
+  menus        Menu[]
+  members      User[]        @relation("members")
+  menuItems    MenuItem[]
+  subscription Subscription?
+  tables       Table[]
+
+  @@map("organizations")
+}
+
+model User {
+  id                String        @id @db.Uuid()
+  name              String        @db.VarChar(255)
+  email             String        @unique @db.VarChar(255)
+  role              UserRole
+  ownedOrganization Organization? @relation("owner")
+
+  organization   Organization @relation("members", fields: [organizationID], references: [id], onDelete: Cascade)
+  organizationID String       @db.Uuid()
+
+  @@map("users")
+}
+
+model Menu {
+  id             String       @id @db.Uuid()
+  name           String       @db.VarChar(255)
+  items          MenuItem[]
+  orderedItemIDs String[]
+  restaurants    Restaurant[]
+  organization   Organization @relation(fields: [organizationID], references: [id], onDelete: Cascade)
+  organizationID String       @db.Uuid()
+
+  @@map("menus")
+}
+
+model Bill {
+  id                          String     @id @db.Uuid()
+  status                      BillStatus
+  createdAt                   DateTime   @default(now())
+  closedAt                    DateTime?
+  restaurantID                String     @db.Uuid()
+  restaurant                  Restaurant @relation(fields: [restaurantID], references: [id], onDelete: Cascade)
+  table                       Table?     @relation(fields: [tableID], references: [id])
+  tableID                     String?    @db.Uuid()
+  orders                      Order[]
+  payedServiceFeeInPercentage Int?
+
+  @@map("bills")
+}
+
+model OrderItem {
+  id         String          @id @db.Uuid()
+  status     OrderItemStatus
+  payedValue Float
+  // * Relations
+  menuItem   MenuItem?       @relation(fields: [itemID], references: [id])
+  itemID     String?         @db.Uuid()
+  order      Order           @relation(fields: [orderID], references: [id])
+  orderID    String          @db.Uuid()
+
+  @@map("orderItems")
+}
+
+model Order {
+  id           String      @id @db.Uuid()
+  customerName String      @db.VarChar(255)
+  // * Relations
+  items        OrderItem[]
+  bill         Bill        @relation(fields: [billID], references: [id], onDelete: Cascade)
+  billID       String      @db.Uuid()
+
+  @@map("orders")
+}
+
+model Table {
+  id             String       @id @db.Uuid()
+  name           String       @db.VarChar(255)
+  bills          Bill[]
+  // * Relations
+  restaurant     Restaurant?  @relation(fields: [restaurantID], references: [id], onDelete: Cascade)
+  restaurantID   String?      @db.Uuid()
+  organization   Organization @relation(fields: [organizationID], references: [id], onDelete: Cascade)
+  organizationID String       @db.Uuid()
+
+  @@map("tables")
+}
+
+model MenuItem {
+  id             String       @id @db.Uuid()
+  name           String       @db.VarChar(255)
+  description    String       @db.VarChar(2083)
+  priceValue     Float
+  priceDiscount  Float?
+  photo          String?      @db.VarChar(255)
+  tag            String?      @db.VarChar(255)
+  kitchen        String?      @db.VarChar(255)
+  menus          Menu[]
+  orderItems     OrderItem[]
+  organization   Organization @relation(fields: [organizationID], references: [id], onDelete: Cascade)
+  organizationID String       @db.Uuid()
+
+  @@map("items")
+}
+
+enum ThemeType {
+  predefined
+  custom
+}
+
+enum UserRole {
+  admin
+  cook
+  waiter
+}
+
+enum BillStatus {
+  pending
+  active
+  declined
+  closed
+  canceled
+}
+
+enum OrderItemStatus {
+  pending
+  active
+  served
+  closed
+  removed
+  declined
+}
+
+enum Interval {
+  month
+  year
+}

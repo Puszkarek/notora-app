@@ -1,0 +1,49 @@
+:host {
+  @apply absolute top-2/4 right-2/4 transform translate-x-2/4 -translate-y-2/4;
+
+  @apply flex flex-col;
+  @apply text-center;
+  @apply p-8 w-full;
+
+  .header,
+  .content {
+    @apply mx-auto max-w-[320px];
+  }
+
+  .header {
+    @apply mb-10;
+    .title {
+      @apply text-5xl font-bungee font-semibold text-black;
+      @apply m-0 mb-5;
+    }
+
+    .subtitle {
+      @apply text-sm text-grey-500 font-semibold;
+      @apply m-0;
+    }
+  }
+
+  .register-warning {
+    @apply text-xs text-center font-semibold text-grey-500;
+    @apply m-0;
+
+    .register-link {
+      @apply block font-bold underline;
+    }
+  }
+
+  .content {
+    @apply flex flex-col;
+    @apply gap-alley;
+  }
+
+  .submit-button {
+    @apply flex items-center justify-between gap-2 m-auto;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :host {
+    @apply w-[600px];
+  }
+}

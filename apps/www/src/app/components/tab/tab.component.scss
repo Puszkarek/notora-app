@@ -1,0 +1,6 @@
+:host {
+  @apply hidden;
+  &.active {
+    @apply block;
+  }
+}

@@ -1,0 +1,31 @@
+:host {
+  @apply fixed top-0 left-0 w-full h-full z-[200];
+  @apply flex flex-col items-center justify-center;
+  @apply h-full;
+  @apply m-auto p-9;
+
+  @apply bg-white;
+}
+
+.card {
+  @apply text-center;
+  @apply text-purple-700;
+
+  .header {
+    @apply mb-5;
+
+    .title {
+      @apply text-9xl font-black;
+    }
+
+    .subtitle {
+      @apply text-3xl font-black;
+      @apply opacity-80;
+    }
+  }
+}
+
+.actions {
+  @apply flex font-semibold justify-center;
+  @apply mt-alley;
+}
