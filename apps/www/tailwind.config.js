@@ -26,17 +26,17 @@ module.exports = {
       'grey-500': '#60646D',
       'grey-100': 'rgb(243, 244, 246)',
     },
+    boxShadow: {
+      'regular-sm': 'rgb(0, 0, 0) 3px 3px 0px 0px',
+      'regular': 'rgb(0, 0, 0) 5px 5px 0px 0px',
+      'regular-lg': 'rgb(0, 0, 0) 10px 10px 0px 0px',
+    },
     extend: {
       fontFamily: {
         'bungee': 'bungee, sans-serif',
         'lexend-mega': "'Lexend Mega', sans-serif",
       },
 
-      boxShadow: {
-        'regular-sm': 'rgb(0, 0, 0) 3px 3px 0px 0px',
-        'regular': 'rgb(0, 0, 0) 5px 5px 0px 0px',
-        'regular-lg': 'rgb(0, 0, 0) 10px 10px 0px 0px',
-      },
       padding: {
         'alley': '1rem',
         '2-alley': '2rem',

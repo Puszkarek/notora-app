@@ -1,5 +1,4 @@
-import { ConfirmationModalWarningComponent } from '@www/app/primitives/confirmation-modal-warning';
-import { ActionDirective } from '@www/app/directives/action';
+import { ActionDirective } from '@www/app/directives/action.directive';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MODAL_DATA_TOKEN, ModalReference } from '@modal';
@@ -9,7 +8,7 @@ import { MODAL_DATA_TOKEN, ModalReference } from '@modal';
   selector: 'app-confirmation-modal',
   styleUrls: ['./confirmation-modal.component.scss'],
   templateUrl: './confirmation-modal.component.html',
-  imports: [CommonModule, ConfirmationModalWarningComponent, ActionDirective],
+  imports: [CommonModule, ActionDirective],
 })
 export class ConfirmationModalComponent {
   constructor(
@@ -32,7 +31,6 @@ export class ConfirmationModalComponent {
 export type ConfirmationModalComponentInput = {
   readonly title: string;
   readonly message: string;
-  readonly warning?: string;
 };
 
 export type ConfirmationModalComponentOutput = {

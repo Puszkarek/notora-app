@@ -1,0 +1,8 @@
+<app-form-field>
+  <label>Label</label>
+  <input [formControl]="form.controls.label" appInput />
+</app-form-field>
+
+<app-multi-select-input [formControl]="form.controls.type" [items]="noteTypes"></app-multi-select-input>
+
+<button (click)="createNote.execute()" [isLoading]="createNote.isProcessing()" appAction="primary">Create </button>

@@ -1,0 +1,6 @@
+<button [class.checked]="isChecked$ | async" class="checkbox-input">
+  @if (isChecked$ | async) {
+    <app-icon class="checkbox-input-icon" iconID="check2"></app-icon>
+  }
+</button>
+<ng-content></ng-content>

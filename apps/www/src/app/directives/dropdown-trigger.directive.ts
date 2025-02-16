@@ -1,5 +1,5 @@
 import { isFalse } from '@www/app/utils/functional';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Directive, ElementRef, HostListener, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -21,6 +21,8 @@ export class DropdownTriggerDirective implements OnDestroy {
 
   /** The `Template` to render inside the dropdown */
   @Input('appDropdownTrigger') public dropdownTemplate!: TemplateRef<unknown>;
+
+  @Input() public position: ConnectedPosition | null = null;
 
   constructor(
     private readonly _overlay: Overlay,
@@ -62,7 +64,7 @@ export class DropdownTriggerDirective implements OnDestroy {
         .position()
         .flexibleConnectedTo(this._elementReference)
         .withPositions([
-          {
+          this.position ?? {
             // Set axis origin
             originX: 'center',
             originY: 'bottom',

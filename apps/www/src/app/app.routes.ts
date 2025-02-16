@@ -41,6 +41,12 @@ export const routes: Routes = [
       import('./pages/logout-page/logout-page.component').then(({ LogoutPageComponent }) => LogoutPageComponent),
     path: 'logout',
   },
+  // * Notes
+  {
+    canActivate: [isAuthenticatedGuard],
+    loadComponent: () => import('./pages/note-page/note-page.component'),
+    path: 'notes/:id',
+  },
   // * Not found page (should be the last one)
   {
     loadComponent: () =>

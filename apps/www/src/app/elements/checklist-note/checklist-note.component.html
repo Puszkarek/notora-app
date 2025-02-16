@@ -1,0 +1,21 @@
+@for (item of itemsWithControl(); track item.id) {
+  <app-checkbox-input [formControl]="item.control" class="checklist-item">
+    {{ item.label }}
+  </app-checkbox-input>
+}
+@if (isAdding() === false) {
+  <button (click)="openNewItemInput()" class="new-item-button">
+    <app-icon iconID="plus"></app-icon>
+    Novo item
+  </button>
+} @else {
+  <div class="new-item-input-container">
+    <input class="new-item-input" #newItemInput type="text" />
+    <button
+      appAction="icon-primary"
+      (click)="addNewItem().execute(newItemInput.value, isAdding)"
+      [isLoading]="addNewItem().isProcessing()">
+      <app-icon iconID="plus" />
+    </button>
+  </div>
+}

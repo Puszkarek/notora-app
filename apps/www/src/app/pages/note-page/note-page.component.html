@@ -1,0 +1,57 @@
+@let note = data();
+
+<app-page-header [title]="getTitle(note)">
+  <a [routerLink]="['/']" appAction="icon-primary" appTooltip="Voltar">
+    <app-icon iconID="arrow-right" />
+  </a>
+</app-page-header>
+
+<app-page-container>
+  @if (!note || note.state === 'loading') {
+    <app-loading-spinner />
+  } @else if (note.state === 'error') {
+    error
+  } @else if (note.state === 'loaded') {
+    @if (note.data.type === 'checklist') {
+      <app-checklist-note [addNewItem]="addNewItem" [checklist]="note.data" />
+    } @else {
+      Não implementado
+    }
+  }
+</app-page-container>
+
+@if (note && note.state === 'loaded') {
+  <button
+    class="floating-button"
+    appAction="icon-primary"
+    #trigger
+    [appDropdownTrigger]="dropdownList"
+    [position]="{
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+      offsetY: -6,
+    }">
+    <app-icon iconID="list" />
+  </button>
+
+  <ng-template #dropdownList>
+    <app-dropdown class="dropdown-items-container" [style.min-width.px]="trigger.offsetWidth">
+      <button
+        class="dropdown-item"
+        appAction="secondary"
+        (click)="shareList.execute()"
+        [isLoading]="shareList.isProcessing()"
+        >Compartilhar</button
+      >
+      <button
+        class="dropdown-item"
+        appAction="secondary"
+        (click)="deleteNote.execute(note.data.id)"
+        [isLoading]="deleteNote.isProcessing()"
+        >Apagar</button
+      >
+    </app-dropdown>
+  </ng-template>
+}

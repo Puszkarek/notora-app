@@ -9,10 +9,64 @@ datasource db {
 }
 
 model User {
-  id                String        @id @db.Uuid()
-  name              String        @db.VarChar(255)
-  email             String        @unique @db.VarChar(255)
+  id            String          @id @db.Uuid()
+  name          String          @db.VarChar(255)
+  email         String          @unique @db.VarChar(255)
+  ChecklistItem ChecklistItem[]
+  BaseNote      BaseNote[]
 
   @@map("users")
 }
 
+model BaseNote {
+  id    String   @id @db.Uuid()
+  label String   @db.VarChar(255)
+  type  NoteType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String @db.Uuid()
+
+  textNote      TextNote?
+  checklistNote ChecklistNote?
+  user          User           @relation(fields: [createdBy], references: [id])
+
+  @@map("notes")
+}
+
+model TextNote {
+  id      String   @id @db.Uuid()
+  content String
+  noteID  String   @unique @db.Uuid()
+  note    BaseNote @relation(fields: [noteID], references: [id], onDelete: Cascade)
+
+  @@map("text_notes")
+}
+
+model ChecklistNote {
+  id     String          @id @db.Uuid()
+  noteID String          @unique @db.Uuid()
+  note   BaseNote        @relation(fields: [noteID], references: [id], onDelete: Cascade)
+  items  ChecklistItem[]
+
+  @@map("checklist_notes")
+}
+
+model ChecklistItem {
+  id          String        @id @db.Uuid()
+  label       String        @db.VarChar(255)
+  createdAt   DateTime      @default(now())
+  completedAt DateTime?
+  createdBy   String        @db.Uuid()
+  noteID      String        @db.Uuid()
+  note        ChecklistNote @relation(fields: [noteID], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [createdBy], references: [id])
+
+  @@map("checklist_items")
+}
+
+enum NoteType {
+  checklist
+  text
+}

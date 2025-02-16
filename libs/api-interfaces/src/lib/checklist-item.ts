@@ -1,13 +1,15 @@
 import { idCodec } from '@api-interfaces/common';
 import * as t from 'io-ts';
+import { date } from 'io-ts-types';
 
 export const checklistItemCodec = t.readonly(
   t.type({
+    id: idCodec,
     label: t.string,
     createdBy: idCodec,
-    createdAt: t.string,
+    createdAt: date,
 
-    completedAt: t.union([t.string, t.null]),
+    completedAt: t.union([date, t.null]),
   }),
 );
 

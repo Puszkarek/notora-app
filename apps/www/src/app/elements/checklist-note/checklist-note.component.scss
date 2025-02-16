@@ -1,0 +1,24 @@
+:host {
+  @apply w-full h-full pt-alley;
+  @apply flex flex-col justify-start items-stretch;
+}
+
+.new-item-input-container,
+.checklist-item,
+.new-item-button {
+  @apply text-xs min-h-[100px];
+  @apply py-5 font-bold;
+  @apply border-b-2 border-solid border-black;
+}
+
+.new-item-input-container {
+  @apply flex justify-between items-stretch gap-1;
+  .new-item-input {
+    @apply h-full w-full bg-transparent;
+  }
+}
+
+.new-item-button {
+  @apply flex justify-start items-center gap-2;
+  @apply w-full;
+}

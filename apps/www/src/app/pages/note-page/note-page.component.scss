@@ -1,0 +1,11 @@
+.floating-button {
+  @apply fixed bottom-4 right-4;
+  @apply bg-purple-700;
+}
+
+.dropdown-items-container {
+  @apply gap-[1px] bg-black;
+  .dropdown-item {
+    @apply border-0 w-full;
+  }
+}

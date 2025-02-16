@@ -6,5 +6,7 @@ export * from './lib/base-note';
 export * from './lib/creatable-note';
 export * from './lib/creatable-checklist-item';
 export * from './lib/auth';
+export * from './lib/text-note';
 export * from './lib/filters/users';
+export * from './lib/filters/notes';
 export * from './lib/api-response';
