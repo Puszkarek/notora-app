@@ -28,7 +28,7 @@ export class AuthService {
         code,
         environment.google.clientID,
         environment.google.clientSecret,
-        `${environment.adminURL}/login/callback`,
+        `${environment.wwwURL}/login/callback`,
       ),
       TE.chain(({ access_token }) =>
         TE.tryCatch(async () => {

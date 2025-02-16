@@ -1,6 +1,6 @@
 export const environment = {
   apiURL: 'http://localhost:3000',
-  adminURL: 'http://localhost:4200',
+  wwwURL: 'http://localhost:4200',
   env: 'dev',
   tokenSecret: process.env['TOKEN_SECRET'] ?? '',
   supabase: {

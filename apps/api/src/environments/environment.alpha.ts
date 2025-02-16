@@ -1,6 +1,6 @@
 export const environment = {
-  apiURL: 'https://kitchi-alpha-api.fly.dev',
-  adminURL: 'https://kitchi-admin-alpha.pages.dev',
+  apiURL: 'https://notora-alpha-api.fly.dev',
+  wwwURL: 'https://notora-api.pages.dev/login',
   env: 'alpha',
   tokenSecret: process.env['TOKEN_SECRET'] ?? '',
   supabase: {
