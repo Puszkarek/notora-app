@@ -22,3 +22,24 @@
 .info {
   @apply bg-blue-300;
 }
+
+.loading {
+  @apply bg-yellow-300;
+  @apply inline-block;
+
+  &:after {
+    content: ' ';
+    @apply block w-4 h-4;
+    @apply border-8 border-solid border-black rounded-[50%];
+    border-color: black transparent black transparent;
+    animation: infinity-rotation 1.2s linear infinite;
+  }
+  @keyframes infinity-rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

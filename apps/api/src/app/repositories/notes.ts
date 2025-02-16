@@ -10,12 +10,15 @@ import {
   GetOneNoteFilter,
   ID,
   TextNote,
+  UpdatableChecklistItem,
+  UpdateOneNoteChecklistItemFilter,
   User,
 } from '@api-interfaces';
 import { Injectable } from '@nestjs/common';
 import { EXCEPTIONS } from '@server/app/helpers/error';
 import { Exception } from '@server/app/interfaces/error';
 import { PrismaService } from '@server/app/modules/prisma';
+import { omitUndefined } from '@utils';
 import { taskEither as TE, taskOption as TO } from 'fp-ts';
 import { flow, pipe } from 'fp-ts/lib/function';
 import { TaskOption } from 'fp-ts/lib/TaskOption';
@@ -102,6 +105,35 @@ export class NotesRepository {
   };
 
   // * Crud
+  public readonly updateOneChecklistItem = (
+    { userID, noteID, checklistItemID }: UpdateOneNoteChecklistItemFilter,
+    data: UpdatableChecklistItem,
+  ): TE.TaskEither<Exception, ChecklistItem> => {
+    return pipe(
+      TE.tryCatch(async () => {
+        return await this._prismaClient.checklistItem.update({
+          select: {
+            id: true,
+            label: true,
+            createdBy: true,
+            createdAt: true,
+
+            completedAt: true,
+          },
+          where: {
+            id: checklistItemID,
+            noteID,
+            user: {
+              id: userID,
+            },
+          },
+          data: omitUndefined(data),
+        });
+      }, EXCEPTIONS.to.bad),
+      TE.chain(flow(TE.fromNullable(EXCEPTIONS.notFound('User not found')))),
+    );
+  };
+
   public readonly addOneChecklistItem = (
     { userID, noteID }: GetOneNoteFilter,
     data: CreatableChecklistItem,

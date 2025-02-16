@@ -36,7 +36,16 @@ export class NotificationService {
    * @param message - The message to show in the notification
    */
   public async success(message: string): Promise<void> {
-    await this._instantiateNotification(message, 'success');
+    await this._instantiateNotification('success', message);
+  }
+
+  /**
+   * Show a notification to the user when an action is loading
+   *
+   * @param message - The message to show in the notification
+   */
+  public async loading(): Promise<void> {
+    await this._instantiateNotification('loading');
   }
 
   /**
@@ -45,7 +54,7 @@ export class NotificationService {
    * @param message - The message to show in the notification
    */
   public async error(message: string): Promise<void> {
-    await this._instantiateNotification(message, 'error');
+    await this._instantiateNotification('error', message);
   }
 
   /**
@@ -54,7 +63,7 @@ export class NotificationService {
    * @param message - The message to show in the notification
    */
   public async warn(message: string): Promise<void> {
-    await this._instantiateNotification(message, 'warn');
+    await this._instantiateNotification('warn', message);
   }
 
   /**
@@ -63,7 +72,7 @@ export class NotificationService {
    * @param message - The message to show in the notification
    */
   public async info(message: string): Promise<void> {
-    await this._instantiateNotification(message, 'info');
+    await this._instantiateNotification('info', message);
   }
 
   public async notifyBasedOnEither(
@@ -83,7 +92,7 @@ export class NotificationService {
    * Create a new Component to show the notification, then wait for a specific duration and
    * destroy it
    */
-  private async _instantiateNotification(message: string, type: NotificationType): Promise<void> {
+  private async _instantiateNotification(type: NotificationType, message?: string): Promise<void> {
     if (!this._viewContainerReference) {
       return;
     }
@@ -111,7 +120,7 @@ export class NotificationService {
     overlayReference.attach(containerPortal);
 
     // Wait a time that the user can read it
-    const NOTIFICATION_DURATION = 2000;
+    const NOTIFICATION_DURATION = type === 'loading' ? 100_000 : 2000;
 
     const timer$ = race([timer(NOTIFICATION_DURATION), this._closeCurrent$]);
     await firstValueFrom(timer$);

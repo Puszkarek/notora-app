@@ -48,12 +48,6 @@ export class NavBarComponent {
     distinctUntilChanged(),
     map(() => {
       const actions: Array<NavBarAction> = [
-        {
-          label: 'Minha Conta',
-          icon: 'person',
-          route: '/settings',
-        },
-
         /* Logout */
         {
           label: 'Sair',

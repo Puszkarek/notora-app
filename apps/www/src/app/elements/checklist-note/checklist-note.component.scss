@@ -14,7 +14,7 @@
 .new-item-input-container {
   @apply flex justify-between items-stretch gap-1;
   .new-item-input {
-    @apply h-full w-full bg-transparent;
+    @apply indent-4 h-full w-full bg-transparent;
   }
 }
 

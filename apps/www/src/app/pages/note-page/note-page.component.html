@@ -13,7 +13,10 @@
     error
   } @else if (note.state === 'loaded') {
     @if (note.data.type === 'checklist') {
-      <app-checklist-note [addNewItem]="addNewItem" [checklist]="note.data" />
+      <app-checklist-note
+        [addNewItem]="addNewItem"
+        [checklist]="note.data"
+        (toggleItem)="toggleChecklistItem($event)" />
     } @else {
       Não implementado
     }

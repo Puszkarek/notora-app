@@ -6,6 +6,8 @@ import {
   creatableChecklistItemCodec,
   creatableNoteCodec,
   TextNote,
+  UpdatableChecklistItem,
+  updatableChecklistItemCodec,
 } from '@api-interfaces';
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@server/app/guards/auth';
@@ -13,7 +15,7 @@ import { executeTaskEither, UserParam } from '@server/app/helpers/controller';
 import { EXCEPTIONS } from '@server/app/helpers/error';
 import { LoggedUser } from '@server/app/interfaces/request';
 import { NotesService } from '@server/app/modules/notes/notes.service';
-import { pipe } from 'fp-ts/lib/function';
+import { flow, pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/lib/TaskEither';
 
 @Controller('notes')
@@ -40,10 +42,10 @@ export class NotesController {
     return { data: await task() };
   }
 
-  @Patch(':id/item')
+  @Patch(':noteID/item')
   @UseGuards(AuthGuard)
   public async addOneChecklistItem(
-    @Param('id') noteID: string,
+    @Param('noteID') noteID: string,
     @UserParam() loggedUser: LoggedUser,
     @Body() body: unknown,
   ): Promise<ApiResponse<ChecklistItem>> {
@@ -55,6 +57,39 @@ export class NotesController {
           {
             noteID,
             userID: loggedUser.id,
+          },
+          body,
+        ),
+      ),
+      executeTaskEither,
+    );
+
+    return { data: await task() };
+  }
+
+  @Patch(':noteID/item/:itemID')
+  @UseGuards(AuthGuard)
+  public async updateOneChecklistItem(
+    @Param('noteID') noteID: string,
+    @Param('itemID') checklistItemID: string,
+    @UserParam() loggedUser: LoggedUser,
+    @Body() body: UpdatableChecklistItem,
+  ): Promise<ApiResponse<ChecklistItem>> {
+    const task = pipe(
+      TE.tryCatch(
+        async () => ({
+          ...body,
+          completedAt: body.completedAt ? new Date(body.completedAt) : body.completedAt,
+        }),
+        EXCEPTIONS.to.bad,
+      ),
+      TE.chain(flow(TE.fromPredicate(updatableChecklistItemCodec.is, () => EXCEPTIONS.bad('Invalid Body')))),
+      TE.chain(body =>
+        this._notesService.updateOneChecklistItem(
+          {
+            noteID,
+            userID: loggedUser.id,
+            checklistItemID,
           },
           body,
         ),
@@ -80,10 +115,10 @@ export class NotesController {
     return { data: await task() };
   }
 
-  @Get(':id')
+  @Get(':noteID')
   @UseGuards(AuthGuard)
   public async getOneWithDetails(
-    @Param('id') noteID: string,
+    @Param('noteID') noteID: string,
     @UserParam() { id }: LoggedUser,
   ): Promise<ApiResponse<CheckListNote | TextNote>> {
     const task = pipe(
@@ -97,9 +132,9 @@ export class NotesController {
     return { data: await task() };
   }
 
-  @Delete(':id')
+  @Delete(':noteID')
   @UseGuards(AuthGuard)
-  public async deleteOne(@Param('id') noteID: string, @UserParam() { id }: LoggedUser): Promise<ApiResponse<void>> {
+  public async deleteOne(@Param('noteID') noteID: string, @UserParam() { id }: LoggedUser): Promise<ApiResponse<void>> {
     const task = pipe(
       this._notesService.deleteOne({
         noteID,

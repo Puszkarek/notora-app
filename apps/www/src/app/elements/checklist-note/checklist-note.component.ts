@@ -3,35 +3,31 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
-  inject,
   input,
+  output,
   signal,
   viewChild,
   WritableSignal,
 } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CheckListNote } from '@api-interfaces';
+import { ChecklistItem, CheckListNote } from '@api-interfaces';
 import { ActionDirective } from '@www/app/directives/action.directive';
 import { TraceableAction } from '@www/app/helpers/trace-action';
-import { CheckboxInputComponent } from '@www/app/primitives/checkbox-input';
 import { IconComponent } from '@www/app/primitives/icon/icon.component';
 import { sleep } from '@www/app/utils/sleep';
+import { CheckboxComponent } from '../../primitives/checkbox/checkbox.component';
+import { sortBy } from 'remeda';
 
 @Component({
   selector: 'app-checklist-note',
   templateUrl: './checklist-note.component.html',
   styleUrls: ['./checklist-note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ActionDirective, IconComponent, ReactiveFormsModule, CheckboxInputComponent, RouterModule],
+  imports: [CommonModule, ActionDirective, IconComponent, ReactiveFormsModule, RouterModule, CheckboxComponent],
 })
 export class ChecklistNoteComponent {
-  private readonly _fb = inject(NonNullableFormBuilder);
-
-  public readonly form = this._fb.array<boolean>([]);
-
   public readonly inputElement = viewChild('newItemInput', {
     read: ElementRef,
   });
@@ -41,23 +37,12 @@ export class ChecklistNoteComponent {
 
   public readonly addNewItem = input.required<TraceableAction<[string, WritableSignal<boolean>]>>();
 
-  public readonly itemsWithControl = computed(() => {
-    const items = this.checklist().items;
-    return items.map((item, index) => ({
-      ...item,
-      control: this.form.controls[index] as FormControl<boolean>,
-    }));
-  });
+  public readonly toggleItem = output<ChecklistItem>();
 
-  constructor() {
-    effect(() => {
-      const items = this.checklist().items;
-      this.form.clear();
-      items.forEach(item => {
-        this.form.push(this._fb.control(item.completedAt ? true : false));
-      });
-    });
-  }
+  public items = computed(() => {
+    const items = this.checklist().items;
+    return sortBy(items, item => (item.completedAt ? 1 : 0));
+  });
 
   public async openNewItemInput(): Promise<void> {
     this.isAdding.set(true);

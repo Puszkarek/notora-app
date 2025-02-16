@@ -1,7 +1,7 @@
-@for (item of itemsWithControl(); track item.id) {
-  <app-checkbox-input [formControl]="item.control" class="checklist-item">
+@for (item of items(); track item.id) {
+  <app-checkbox class="checklist-item" [isChecked]="item.completedAt ? true : false" (clicked)="toggleItem.emit(item)">
     {{ item.label }}
-  </app-checkbox-input>
+  </app-checkbox>
 }
 @if (isAdding() === false) {
   <button (click)="openNewItemInput()" class="new-item-button">

@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import { equals } from 'ramda';
+import { isDeepEqual } from 'remeda';
 
 export const isEqual = <T>(valueA: T, valueB: T): valueA is T => {
-  return equals(valueA, valueB);
+  return isDeepEqual(valueA, valueB);
 };
 
 /**

@@ -10,7 +10,7 @@ import { LoadingSpinnerComponent } from '../../primitives/loading-spinner/loadin
 import { PageHeaderComponent } from '../page-header/page-header.component';
 import { ActionDirective } from '@www/app/directives/action.directive';
 import { IconComponent } from '../../primitives/icon/icon.component';
-import { CheckListNote, TextNote } from '@api-interfaces';
+import { ChecklistItem, CheckListNote, TextNote } from '@api-interfaces';
 import * as O from 'fp-ts/es6/Option';
 import { TooltipDirective } from '@www/app/directives/tooltip.directive';
 import { flow } from 'fp-ts/es6/function';
@@ -134,4 +134,34 @@ export default class NotePageComponent {
 
     return note.data.label;
   }
+
+  public readonly toggleChecklistItem = async (item: ChecklistItem) => {
+    const note = this.data();
+    if (!note || note.state !== 'loaded' || note.data.type !== 'checklist') {
+      this._notificationService.error('Não foi possível adicionar o item');
+      return;
+    }
+
+    this._notificationService.loading();
+    const completedAt = item.completedAt ? null : new Date();
+    const result = await this._notesStore.updateOneChecklistItem(note.data.id, item.id, {
+      completedAt,
+    });
+    if (E.isLeft(result)) {
+      this._notificationService.error('Falha ao adicionar item');
+      return;
+    }
+
+    const updatedNote: CheckListNote = {
+      ...note.data,
+      items: note.data.items.map(item => {
+        if (item.id === result.right.id) {
+          return result.right;
+        }
+        return item;
+      }),
+    };
+    this._note.set({ state: 'loaded', data: updatedNote });
+    this._notificationService.success('Item atualizado com sucesso');
+  };
 }

@@ -10,3 +10,4 @@ export * from './lib/text-note';
 export * from './lib/filters/users';
 export * from './lib/filters/notes';
 export * from './lib/api-response';
+export * from './lib/updatable-checklist-item';

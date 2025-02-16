@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Signal } from '@angular/core';
-import { BaseNote, CheckListNote, CreatableChecklistItem, CreatableNote, ID, TextNote } from '@api-interfaces';
+import {
+  BaseNote,
+  CheckListNote,
+  CreatableChecklistItem,
+  CreatableNote,
+  ID,
+  TextNote,
+  UpdatableChecklistItem,
+} from '@api-interfaces';
 import { patchState, signalStore, type, withComputed, withMethods, withState } from '@ngrx/signals';
 import { addEntities, addEntity, removeEntity, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { createOneNote } from '@www/app/endpoints/create-one-note';
@@ -10,6 +18,7 @@ import { getMyNotes } from '@www/app/endpoints/get-my-notes';
 import { getOneNoteWithDetails } from '@www/app/endpoints/get-one-note';
 import { deleteOneNote } from '@www/app/endpoints/delete-one-note';
 import { addOneChecklistItem } from '@www/app/endpoints/add-one-checklist-item';
+import { updateOneChecklistItem } from '@www/app/endpoints/update-one-checklist-item';
 
 type StoreState = {
   isLoading: boolean;
@@ -44,6 +53,9 @@ export const NotesStore = signalStore(
       }
 
       return entity;
+    },
+    updateOneChecklistItem: async (noteID: string, checklistItemID: ID, data: UpdatableChecklistItem) => {
+      return await updateOneChecklistItem(httpClient, noteID, checklistItemID, data);
     },
     addOneChecklistItem: async (noteID: ID, data: CreatableChecklistItem) => {
       return await addOneChecklistItem(httpClient, noteID, data);

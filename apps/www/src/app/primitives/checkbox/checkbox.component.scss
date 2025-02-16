@@ -1,0 +1,17 @@
+:host {
+  @apply flex justify-start items-center;
+  @apply font-semibold text-xs text-black;
+
+  .checkbox-input {
+    @apply flex flex-col justify-center items-center;
+    @apply border-solid border-2 border-black;
+    @apply w-[18px] h-[18px] mr-4;
+
+    .checkbox-input-icon {
+      @apply text-xs text-black;
+    }
+    &.checked {
+      @apply bg-purple-700;
+    }
+  }
+}

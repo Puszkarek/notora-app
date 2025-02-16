@@ -1,0 +1,6 @@
+<button (click)="clicked.emit()" [class.checked]="isChecked()" class="checkbox-input">
+  @if (isChecked()) {
+    <app-icon class="checkbox-input-icon" iconID="check2"></app-icon>
+  }
+</button>
+<ng-content></ng-content>
