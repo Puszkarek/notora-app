@@ -1,12 +1,12 @@
-import { IconComponent } from '@www/app/primitives/icon';
-import { TooltipDirective } from '@www/app/directives/tooltip';
+import { IconComponent } from '@www/app/primitives/icon/icon.component';
+import { TooltipDirective } from '@www/app/directives/tooltip.directive';
 import { ICON_ID } from '@www/app/interfaces/icon';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { isNotNull } from '@utils';
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs';
-import { AuthService } from '@www/app/services/auth';
+import { AuthService } from '@www/app/services/auth.service';
 
 type NavBarAction = {
   label: string;

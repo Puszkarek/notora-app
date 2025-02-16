@@ -1,21 +1,23 @@
-<div class="header">
-  <h2 class="title">Logar</h2>
-  <p class="subtitle">Utilize sua conta Google para acessar o sistema</p>
-</div>
-<div class="content">
-  <a
-    appAction="primary"
-    [shadow]="true"
-    data-test="login-submit"
-    class="submit-button"
-    type="button"
-    [href]="getGoogleConsentURL">
-    <app-icon iconID="google"></app-icon>
-    Google</a
-  >
+<app-page-container class="container">
+  <div class="header">
+    <h2 class="title">Logar</h2>
+    <p class="subtitle">Utilize sua conta Google para acessar o sistema</p>
+  </div>
+  <div class="content">
+    <a
+      appAction="primary"
+      [shadow]="true"
+      data-test="login-submit"
+      class="submit-button"
+      type="button"
+      [href]="getGoogleConsentURL">
+      <app-icon iconID="google"></app-icon>
+      Google</a
+    >
 
-  <p class="register-warning">
-    Ainda não possui conta?
-    <a class="register-link" routerLink="/register">Registre-se</a>
-  </p>
-</div>
+    <p class="register-warning">
+      Ainda não possui conta?
+      <a class="register-link" routerLink="/register">Registre-se</a>
+    </p>
+  </div>
+</app-page-container>

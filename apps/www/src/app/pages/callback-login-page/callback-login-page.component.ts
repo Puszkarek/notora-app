@@ -1,17 +1,18 @@
-import { LoadingSpinnerComponent } from '@www/app/primitives/loading-spinner';
-import { AuthService } from '@www/app/services/auth';
+import { LoadingSpinnerComponent } from '@www/app/primitives/loading-spinner/loading-spinner.component';
+import { AuthService } from '@www/app/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { isString } from '@utils';
+import { PageContainerComponent } from '../../primitives/page-container/page-container.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-callback-login-page',
   styleUrls: ['./callback-login-page.component.scss'],
   templateUrl: './callback-login-page.component.html',
-  imports: [CommonModule, LoadingSpinnerComponent, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, LoadingSpinnerComponent, RouterModule, ReactiveFormsModule, PageContainerComponent],
 })
 export class CallbackLoginPageComponent implements OnInit {
   constructor(

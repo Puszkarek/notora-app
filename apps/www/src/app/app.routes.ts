@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { isAuthenticatedGuard } from '@www/app/guards/auth';
-import { LoggedGuard } from '@www/app/guards/logged';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { isAuthenticatedGuard } from '@www/app/guards/auth.guard';
+import { LoggedGuard } from '@www/app/guards/logged.guard';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   // * Redirects

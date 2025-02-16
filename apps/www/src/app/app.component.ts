@@ -1,13 +1,13 @@
-import { NotificationService } from '@www/app/services/notification';
-import { ScreenService } from '@www/app/services/screen';
+import { NotificationService } from '@www/app/services/notification.service';
+import { ScreenService } from '@www/app/services/screen.service';
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, signal, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
-import { AuthService } from '@www/app/services/auth';
+import { AuthService } from '@www/app/services/auth.service';
 import { RouterOutlet } from '@angular/router';
-import { NavBarComponent } from '@www/app/primitives/nav-bar';
-import { HeaderMobileComponent } from '@www/app/primitives/header-mobile';
+import { NavBarComponent } from '@www/app/primitives/nav-bar/nav-bar.component';
+import { HeaderMobileComponent } from '@www/app/primitives/header-mobile/header-mobile.component';
 
 @Component({
   selector: 'app-root',

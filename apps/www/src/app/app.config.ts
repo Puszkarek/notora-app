@@ -3,7 +3,7 @@ import { type ApplicationConfig, provideZoneChangeDetection } from '@angular/cor
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from '@www/app/app.routes';
-import { tokenInterceptor } from '@www/app/interceptors/token';
+import { tokenInterceptor } from '@www/app/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

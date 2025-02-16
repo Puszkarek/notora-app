@@ -1,0 +1,5 @@
+@for (note of notes(); track note.id) {
+  <a class="note-button" [routerLink]="['/notes', note.id]">
+    {{ note.label }}
+  </a>
+}
