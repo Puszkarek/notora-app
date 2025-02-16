@@ -1,4 +1,4 @@
-import { NotificationToastComponent } from '@www/app/components/notification-toast';
+import { NotificationToastComponent } from '@www/app/primitives/notification-toast';
 import { NOTIFICATION_DATA_TOKEN } from '@www/app/constants/notification';
 import { NotificationType } from '@www/app/interfaces/notification';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';

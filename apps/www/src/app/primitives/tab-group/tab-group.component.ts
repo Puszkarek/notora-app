@@ -1,4 +1,4 @@
-import { TabComponent } from '@www/app/components/tab/tab.component';
+import { TabComponent } from '@www/app/primitives/tab/tab.component';
 import { ActionDirective } from '@www/app/directives/action';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, QueryList } from '@angular/core';

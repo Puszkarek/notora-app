@@ -1,4 +1,4 @@
-import { IconComponent } from '@www/app/components/icon';
+import { IconComponent } from '@www/app/primitives/icon';
 import { ActionDirective } from '@www/app/directives/action';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';

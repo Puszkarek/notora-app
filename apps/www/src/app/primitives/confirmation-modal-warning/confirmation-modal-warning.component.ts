@@ -1,4 +1,4 @@
-import { IconComponent } from '@www/app/components/icon';
+import { IconComponent } from '@www/app/primitives/icon';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 

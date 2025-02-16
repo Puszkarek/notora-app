@@ -1,4 +1,4 @@
-import { TooltipComponent } from '@www/app/components/tooltip';
+import { TooltipComponent } from '@www/app/primitives/tooltip';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { DestroyRef, Directive, HostListener, Injector, Input, ViewContainerRef } from '@angular/core';

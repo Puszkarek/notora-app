@@ -1,5 +1,5 @@
-import { DropdownComponent } from '@www/app/components/dropdown';
-import { IconComponent } from '@www/app/components/icon';
+import { DropdownComponent } from '@www/app/primitives/dropdown';
+import { IconComponent } from '@www/app/primitives/icon';
 import { DropdownTriggerDirective } from '@www/app/directives/dropdown-trigger';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';

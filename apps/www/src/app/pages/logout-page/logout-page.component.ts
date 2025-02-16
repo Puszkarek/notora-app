@@ -1,4 +1,4 @@
-import { LoadingSpinnerComponent } from '@www/app/components/loading-spinner';
+import { LoadingSpinnerComponent } from '@www/app/primitives/loading-spinner';
 import { AuthService } from '@www/app/services/auth';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 

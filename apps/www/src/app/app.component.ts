@@ -6,8 +6,8 @@ import { Title } from '@angular/platform-browser';
 import { debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
 import { AuthService } from '@www/app/services/auth';
 import { RouterOutlet } from '@angular/router';
-import { NavBarComponent } from '@www/app/components/nav-bar';
-import { HeaderMobileComponent } from '@www/app/components/header-mobile';
+import { NavBarComponent } from '@www/app/primitives/nav-bar';
+import { HeaderMobileComponent } from '@www/app/primitives/header-mobile';
 
 @Component({
   selector: 'app-root',

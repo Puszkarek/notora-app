@@ -1,4 +1,4 @@
-import { IconComponent } from '@www/app/components/icon';
+import { IconComponent } from '@www/app/primitives/icon';
 import { TooltipDirective } from '@www/app/directives/tooltip';
 import { ICON_ID } from '@www/app/interfaces/icon';
 import { CommonModule } from '@angular/common';

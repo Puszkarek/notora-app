@@ -1,4 +1,4 @@
-import { DropdownComponent } from '@www/app/components/dropdown';
+import { DropdownComponent } from '@www/app/primitives/dropdown';
 import { DropdownTriggerDirective } from '@www/app/directives/dropdown-trigger';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';

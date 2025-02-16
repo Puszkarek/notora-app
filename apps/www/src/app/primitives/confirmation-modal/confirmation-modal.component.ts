@@ -1,4 +1,4 @@
-import { ConfirmationModalWarningComponent } from '@www/app/components/confirmation-modal-warning';
+import { ConfirmationModalWarningComponent } from '@www/app/primitives/confirmation-modal-warning';
 import { ActionDirective } from '@www/app/directives/action';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';

@@ -1,5 +1,5 @@
-import { FormFieldComponent } from '@www/app/components/form-field';
-import { IconComponent } from '@www/app/components/icon';
+import { FormFieldComponent } from '@www/app/primitives/form-field';
+import { IconComponent } from '@www/app/primitives/icon';
 import { ActionDirective } from '@www/app/directives/action';
 import { InputDirective } from '@www/app/directives/input';
 import { CommonModule } from '@angular/common';
