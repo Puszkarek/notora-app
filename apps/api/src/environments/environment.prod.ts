@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 export const environment = {
   apiURL: 'https://notora-prod-api.fly.dev',
-  wwwURL: 'https://notora-prod.pages.dev/login',
+  wwwURL: 'https://notora-prod.pages.dev',
   env: 'prod',
   tokenSecret: process.env['TOKEN_SECRET'] ?? '',
   supabase: {

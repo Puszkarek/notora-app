@@ -1,6 +1,6 @@
 export const environment = {
   apiURL: 'https://notora-alpha-api.fly.dev',
-  wwwURL: 'https://notora-api.pages.dev/login',
+  wwwURL: 'https://notora-api.pages.dev',
   env: 'alpha',
   tokenSecret: process.env['TOKEN_SECRET'] ?? '',
   supabase: {
