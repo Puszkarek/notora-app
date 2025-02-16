@@ -19,6 +19,7 @@ import { getOneNoteWithDetails } from '@www/app/endpoints/get-one-note';
 import { deleteOneNote } from '@www/app/endpoints/delete-one-note';
 import { addOneChecklistItem } from '@www/app/endpoints/add-one-checklist-item';
 import { updateOneChecklistItem } from '@www/app/endpoints/update-one-checklist-item';
+import { shareOneNote } from '@www/app/endpoints/share-one-note';
 
 type StoreState = {
   isLoading: boolean;
@@ -85,6 +86,9 @@ export const NotesStore = signalStore(
       patchState(store, { isLoaded: true });
 
       return note;
+    },
+    shareOne: async (id: string): Promise<E.Either<Error, void>> => {
+      return await shareOneNote(httpClient, id);
     },
     fetchMine: async (): Promise<E.Either<Error, Array<BaseNote>>> => {
       patchState(store, { isLoading: true });

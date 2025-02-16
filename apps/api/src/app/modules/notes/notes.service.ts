@@ -24,6 +24,10 @@ import { TaskEither } from 'fp-ts/lib/TaskEither';
 export class NotesService {
   constructor(private readonly _notesRepository: NotesRepository) {}
 
+  public shareOne = (filters: GetOneNoteFilter): TaskEither<Exception, void> => {
+    return this._notesRepository.shareOne(filters);
+  };
+
   public addOneChecklistItem = (
     filters: GetOneNoteFilter,
     data: CreatableChecklistItem,

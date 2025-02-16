@@ -109,7 +109,14 @@ export default class NotePageComponent {
   });
 
   public readonly shareList = traceAction(async () => {
-    console.log('get link');
+    const note = this.data();
+    if (!note || note.state !== 'loaded') {
+      this._notificationService.error('Não foi possível compartilhar a lista');
+      return;
+    }
+    const url = `${location.origin}/notes/${note.data.id}/share`;
+    await navigator.clipboard.writeText(url);
+    this._notificationService.success('Link copiado para a área de transferência');
   });
 
   public async ngOnInit(): Promise<void> {

@@ -60,8 +60,10 @@ export class NotesRepository {
           },
           where: {
             id: noteID,
-            user: {
-              id: userID,
+            users: {
+              some: {
+                id: userID,
+              },
             },
           },
         });
@@ -94,8 +96,10 @@ export class NotesRepository {
         return await this._prismaClient.baseNote.findMany({
           select: this._selectParameters,
           where: {
-            user: {
-              id: userID,
+            users: {
+              some: {
+                id: userID,
+              },
             },
           },
         });
@@ -122,15 +126,39 @@ export class NotesRepository {
           },
           where: {
             id: checklistItemID,
-            noteID,
-            user: {
-              id: userID,
+            note: {
+              id: noteID,
+              baseNote: {
+                users: {
+                  some: {
+                    id: userID,
+                  },
+                },
+              },
             },
           },
           data: omitUndefined(data),
         });
       }, EXCEPTIONS.to.bad),
       TE.chain(flow(TE.fromNullable(EXCEPTIONS.notFound('User not found')))),
+    );
+  };
+
+  public readonly shareOne = ({ userID, noteID }: GetOneNoteFilter): TE.TaskEither<Exception, void> => {
+    return pipe(
+      TE.tryCatch(async () => {
+        await this._prismaClient.baseNote.update({
+          select: { id: true },
+          where: { id: noteID },
+          data: {
+            users: {
+              connect: {
+                id: userID,
+              },
+            },
+          },
+        });
+      }, EXCEPTIONS.to.bad),
     );
   };
 
@@ -188,8 +216,10 @@ export class NotesRepository {
           },
           where: {
             id: noteID,
-            user: {
-              id: userID,
+            users: {
+              some: {
+                id: userID,
+              },
             },
           },
         });
@@ -203,7 +233,8 @@ const getCreatableData = (id: ID, userID: ID, data: CreatableNote) => {
     id,
     label: data.label,
     type: data.type,
-    user: {
+    createdBy: userID,
+    users: {
       connect: {
         id: userID,
       },

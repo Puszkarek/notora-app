@@ -44,6 +44,11 @@ export const routes: Routes = [
   // * Notes
   {
     canActivate: [isAuthenticatedGuard],
+    loadComponent: () => import('./pages/share-note-page/share-note-page.component'),
+    path: 'notes/:id/share',
+  },
+  {
+    canActivate: [isAuthenticatedGuard],
     loadComponent: () => import('./pages/note-page/note-page.component'),
     path: 'notes/:id',
   },

@@ -42,6 +42,20 @@ export class NotesController {
     return { data: await task() };
   }
 
+  @Patch(':noteID/share')
+  @UseGuards(AuthGuard)
+  public async shareOne(@Param('noteID') noteID: string, @UserParam() loggedUser: LoggedUser): Promise<void> {
+    const task = pipe(
+      this._notesService.shareOne({
+        noteID,
+        userID: loggedUser.id,
+      }),
+      executeTaskEither,
+    );
+
+    await task();
+  }
+
   @Patch(':noteID/item')
   @UseGuards(AuthGuard)
   public async addOneChecklistItem(
