@@ -1,6 +1,6 @@
 export const environment = {
   apiHost: 'http://localhost:3000',
-  googleClientID: '1045556248414-7gttqdbg50shfakc6eioh30jk2d7kdk0.apps.googleusercontent.com',
+  googleClientID: '48558593205-g8out9ps4c2cap4b6p592f0ver42bq3v.apps.googleusercontent.com',
   production: false,
 };
 
