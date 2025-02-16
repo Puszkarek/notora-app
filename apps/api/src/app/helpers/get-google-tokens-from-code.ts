@@ -38,6 +38,10 @@ export const getGoogleTokensFromCode = (
     });
 
     if (!response.ok) {
+      console.dir(response);
+      console.log(response);
+      console.log(await response.json());
+      console.log(await response.text());
       throw new Error('Failed to get access token');
     }
 
