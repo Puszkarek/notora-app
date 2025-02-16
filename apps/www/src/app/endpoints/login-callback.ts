@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import type { HttpClient } from '@angular/common/http';
 import { LoginResponse, loginResponseCodec } from '@api-interfaces';
 import * as E from 'fp-ts/es6/Either';
 import { flow } from 'fp-ts/lib/function';

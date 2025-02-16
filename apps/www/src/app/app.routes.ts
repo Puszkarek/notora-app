@@ -4,7 +4,7 @@ import { LoggedGuard } from '@www/app/guards/logged';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
+export const routes: Routes = [
   // * Redirects
   {
     path: '',
@@ -51,9 +51,3 @@ const routes: Routes = [
     path: '**',
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes)],
-})
-export class AppRoutingModule {}

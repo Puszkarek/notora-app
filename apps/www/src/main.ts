@@ -1,14 +1,12 @@
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+import { environment } from '@www/environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  // eslint-disable-next-line unicorn/prefer-top-level-await
-  .catch(error => console.error(error));
+bootstrapApplication(AppComponent, appConfig).catch(error => console.error(error));

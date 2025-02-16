@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import type { HttpClient } from '@angular/common/http';
 import { User, userCodec } from '@api-interfaces';
 import * as E from 'fp-ts/es6/Either';
 import { catchError, firstValueFrom, map, of } from 'rxjs';

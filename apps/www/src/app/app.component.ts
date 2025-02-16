@@ -3,15 +3,18 @@ import { ScreenService } from '@www/app/services/screen';
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, signal, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
+import { debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
 import { AuthService } from '@www/app/services/auth';
+import { RouterOutlet } from '@angular/router';
+import { NavBarComponent } from '@www/app/components/nav-bar';
+import { HeaderMobileComponent } from '@www/app/components/header-mobile';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [RouterOutlet, NavBarComponent, HeaderMobileComponent],
 })
 export class AppComponent implements AfterViewInit {
   public readonly isMobile = this._screenService.isMobile;

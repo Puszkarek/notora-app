@@ -11,7 +11,6 @@ import * as jose from 'jose';
 
 const tokenPayloadCodec = t.type({
   userID: t.string,
-  organizationId: t.string,
 });
 
 /** The key that we use to encrypt the token, so that it just can be read at our backend */
@@ -56,9 +55,7 @@ export const parseToken = (JWT: AuthToken): TaskEither<Exception, jose.JWTVerify
  * @param JWT - The token to parse
  * @returns On success the parsed token, otherwise the error that happened
  */
-export const getUserDataFromToken = (
-  JWT: AuthToken,
-): TaskEither<Exception, { userId: string; organizationId: string }> => {
+export const getUserDataFromToken = (JWT: AuthToken): TaskEither<Exception, { userID: string }> => {
   return pipe(
     TE.tryCatch(
       async () => {
@@ -74,7 +71,6 @@ export const getUserDataFromToken = (
     ),
     TE.map(token => token.payload),
     TE.chain(flow(TE.fromPredicate(tokenPayloadCodec.is, () => EXCEPTIONS.bad('Payload with an invalid format')))),
-    TE.map(token => token.userID),
   );
 };
 

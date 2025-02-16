@@ -4,7 +4,6 @@ import { ICON_ID } from '@www/app/interfaces/icon';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { USER_ROLE } from '@api-interfaces';
 import { isNotNull } from '@utils';
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs';
 import { AuthService } from '@www/app/services/auth';
@@ -27,7 +26,7 @@ export class NavBarComponent {
   public readonly mainActions$ = this._authService.loggedUser$.pipe(
     filter(isNotNull),
     distinctUntilChanged(),
-    map(user => {
+    map(() => {
       const actions: Array<NavBarAction> = [
         {
           label: 'Início',
@@ -35,10 +34,6 @@ export class NavBarComponent {
           route: '/',
         },
       ];
-
-      if (user.role === USER_ROLE.admin) {
-        actions.push({ label: 'Usuários', icon: 'people', route: '/admin/users' });
-      }
 
       return actions;
     }),

@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     const task = pipe(
       token,
       getUserDataFromToken,
-      TE.chain(userID => this._usersService.getMinimalUser(userID)),
+      TE.chain(({ userID }) => this._usersService.getMinimalUser(userID)),
       executeTaskEither,
     );
 
