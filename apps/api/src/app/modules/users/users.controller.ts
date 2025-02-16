@@ -1,5 +1,5 @@
-import { User } from '@api-interfaces';
-import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
+import { ApiResponse, User } from '@api-interfaces';
+import { Controller, Get, HttpCode, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@server/app/guards/auth';
 import { executeTaskEither, UserParam } from '@server/app/helpers/controller';
 import { REQUEST_STATUS } from '@server/app/interfaces/error';
@@ -16,7 +16,7 @@ export class UsersController {
   @Get('me')
   @HttpCode(REQUEST_STATUS.accepted)
   @UseGuards(AuthGuard)
-  public async getLoggedUser(@UserParam() loggedUser: LoggedUser): Promise<User> {
+  public async getLoggedUser(@UserParam() loggedUser: LoggedUser): Promise<ApiResponse<User>> {
     const task = pipe(
       this._usersService.getOne({
         userID: loggedUser.id,
@@ -24,6 +24,10 @@ export class UsersController {
       executeTaskEither,
     );
 
-    return await task();
+    const user = await task();
+
+    return {
+      data: user,
+    };
   }
 }

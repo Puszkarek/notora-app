@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 export const environment = {
   apiHost: 'TODO',
-  menuHost: 'TODO',
-  imagesHost: 'TODO',
+  googleClientID: 'TODO',
   production: true,
 };

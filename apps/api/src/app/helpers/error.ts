@@ -58,6 +58,9 @@ export const EXCEPTIONS = {
     /** Code 401 */
     unauthorized: (message: unknown): Exception =>
       createExceptionError(extractErrorMessage(message), REQUEST_STATUS.unauthorized),
+    /** Code 500 */
+    internal: (message: unknown): Exception =>
+      createExceptionError(extractErrorMessage(message), REQUEST_STATUS.internal),
   },
   /** Code 400 */
   bad: (message: string): Exception => createExceptionError(message, REQUEST_STATUS.bad),
@@ -77,6 +80,8 @@ export const EXCEPTIONS = {
   /** Code 422 */
   unprocessableEntity: (message: string): Exception =>
     createExceptionError(message, REQUEST_STATUS.unprocessable_entity),
+  /** Code 500 */
+  internal: (message: string): Exception => createExceptionError(message, REQUEST_STATUS.internal),
 };
 
 // * User Prisma Errors

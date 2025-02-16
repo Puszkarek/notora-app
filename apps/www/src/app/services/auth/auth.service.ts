@@ -4,7 +4,6 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { isNull } from '@utils';
 import { loginCallback } from '@www/app/endpoints/login-callback';
-import { loginUser } from '@www/app/endpoints/login-user';
 import { LoginStatus } from '@www/app/interfaces/auth';
 import { TokenManagerService } from '@www/app/services/token-manager';
 import { environment } from '@www/environments/environment';
@@ -13,7 +12,6 @@ import * as E from 'fp-ts/es6/Either';
 import { distinctUntilChanged, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import { getMyUser } from '@www/app/endpoints/get-my-user';
 
-const GOOGLE_VERIFIER_KEY = 'googleVerifier';
 @Injectable({
   providedIn: 'root',
 })
@@ -49,37 +47,18 @@ export class AuthService {
     this.checkToken();
   }
 
-  /**
-   * The Register & Login are done in the same endpoint
-   */
-  public async login(): Promise<boolean> {
-    const userEither = await loginUser(this._httpClient, this._baseURL);
-
-    if (E.isLeft(userEither)) {
-      return false;
-    }
-
-    const data = userEither.right;
-    localStorage.setItem(GOOGLE_VERIFIER_KEY, data.verifier);
-    window.location.href = data.url;
-
-    return true;
-  }
-
-  public async handleLoginCallback(code: string, state: string): Promise<boolean> {
-    const verifier = localStorage.getItem(GOOGLE_VERIFIER_KEY);
-    if (!verifier) {
-      console.error('Missing verifier');
-      return false;
-    }
-    localStorage.removeItem(GOOGLE_VERIFIER_KEY);
-    const either = await loginCallback(this._httpClient, this._baseURL, code, state, verifier);
+  public async handleLoginCallback(code: string): Promise<boolean> {
+    const either = await loginCallback(this._httpClient, this._baseURL, code);
     if (E.isLeft(either)) {
       return false;
     }
 
     const response = either.right;
 
+    this._authAction.set({
+      status: 'logged',
+      user: response.loggedUser,
+    });
     this._tokenManager.setToken(response.token);
 
     return true;
@@ -105,6 +84,7 @@ export class AuthService {
   public async checkToken(): Promise<void> {
     // Avoid unnecessary requests to the backend
     const savedToken = this._tokenManager.getToken();
+
     if (isNull(savedToken)) {
       return;
     }

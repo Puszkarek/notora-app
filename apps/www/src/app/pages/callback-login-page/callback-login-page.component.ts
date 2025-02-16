@@ -21,13 +21,13 @@ export class CallbackLoginPageComponent implements OnInit {
   ) {}
 
   public async ngOnInit(): Promise<void> {
-    const { code, state } = this._route.snapshot.queryParams;
-    if (!isString(code) || !isString(state)) {
+    const { code } = this._route.snapshot.queryParams;
+    if (!isString(code)) {
       this._router.navigateByUrl('/login');
       return;
     }
 
-    const isSuccessfully = await this._authService.handleLoginCallback(code, state);
+    const isSuccessfully = await this._authService.handleLoginCallback(code);
 
     if (!isSuccessfully) {
       this._router.navigateByUrl('/login');

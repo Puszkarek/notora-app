@@ -1,7 +1,6 @@
 export const environment = {
   apiHost: 'http://localhost:3000',
-  menuHost: 'http://localhost:4300',
-  imagesHost: 'https://sskciounzqcgcnbuveof.supabase.co/storage/v1/object/public/images',
+  googleClientID: '1045556248414-7gttqdbg50shfakc6eioh30jk2d7kdk0.apps.googleusercontent.com',
   production: false,
 };
 

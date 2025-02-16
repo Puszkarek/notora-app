@@ -1,10 +1,8 @@
 import { IconComponent } from '@www/app/components/icon';
 import { ActionDirective } from '@www/app/directives/action';
-import { AuthService } from '@www/app/services/auth';
-import { NotificationService } from '@www/app/services/notification';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { getGoogleConsentURL } from '@www/app/helpers/get-google-consent-url';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,26 +12,6 @@ import { BehaviorSubject } from 'rxjs';
   imports: [RouterModule, IconComponent, ActionDirective],
 })
 export class RegisterPageComponent {
-  private readonly _isSubmitting$ = new BehaviorSubject<boolean>(false);
-
-  constructor(
-    private readonly _authService: AuthService,
-    private readonly _notificationService: NotificationService,
-  ) {}
-
-  public async registerUser(): Promise<void> {
-    if (this._isSubmitting$.value) {
-      this._notificationService.error('Já estamos fazendo o cadastro');
-      return;
-    }
-
-    this._isSubmitting$.next(true);
-    this._notificationService.info('Criando conta...');
-    const isSuccess = await this._authService.login();
-    this._notificationService.clean();
-    if (!isSuccess) {
-      this._isSubmitting$.next(false);
-      this._notificationService.error('Falha ao fazer login');
-    }
-  }
+  public readonly getGoogleConsentURL = getGoogleConsentURL();
+  constructor() {}
 }

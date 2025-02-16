@@ -13,6 +13,7 @@ export enum REQUEST_STATUS {
   unsupported_media_type = 415,
   unprocessable_entity = 422,
   // * 5xx Server Errors
+  internal = 500,
   not_implemented = 501,
 }
 
