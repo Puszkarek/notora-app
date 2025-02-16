@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { isString } from '@utils';
 import { PageContainerComponent } from '../../primitives/page-container/page-container.component';
+import { sleep } from '@www/app/utils/sleep';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +36,8 @@ export class CallbackLoginPageComponent implements OnInit {
       return;
     }
 
+    // * Wait for the signal to be updated
+    await sleep(100);
     this._router.navigateByUrl('/');
   }
 }

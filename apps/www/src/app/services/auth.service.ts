@@ -11,6 +11,7 @@ import * as t from 'io-ts';
 import * as E from 'fp-ts/es6/Either';
 import { distinctUntilChanged, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import { getMyUser } from '@www/app/endpoints/get-my-user';
+import { sleep } from '@www/app/utils/sleep';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +79,8 @@ export class AuthService {
       status: 'logout',
     });
 
+    // * Wait for the signal to be updated
+    await sleep(100);
     await this._router.navigateByUrl('/login');
   }
 
