@@ -1,0 +1,6 @@
+:host {
+  @apply block w-full h-full;
+  @apply bg-[url('/assets/hearts.svg')] bg-no-repeat bg-cover;
+  background-position: right 98%;
+  background-size: 150px;
+}
