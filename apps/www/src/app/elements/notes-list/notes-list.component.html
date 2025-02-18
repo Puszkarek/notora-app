@@ -1,6 +1,6 @@
 @for (note of notes(); track note.id) {
-  <a class="note-button" [style.backgroundColor]="randomNoteColor()" [routerLink]="['/notes', note.id]">
+  <a class="note-button" [style.backgroundColor]="getNextColor()" [routerLink]="['/notes', note.id]">
     <app-icon [iconID]="note.type === 'checklist' ? 'list-check' : 'sticky'" />
-    {{ note.label }}
+    <span class="note-label">{{ note.label }}</span>
   </a>
 }

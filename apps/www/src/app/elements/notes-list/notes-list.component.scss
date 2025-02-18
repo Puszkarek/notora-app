@@ -1,18 +1,18 @@
 :host {
   @apply h-full w-full;
-  @apply grid grid-cols-2 grid-rows-[min-content] gap-2 pt-alley;
+  @apply gap-2 pt-alley;
+  @apply grid grid-cols-2;
+  grid-auto-rows: 100px;
 }
 .note-button {
   @apply flex flex-col justify-between items-start gap-1;
   @apply border-2 border-solid border-black;
   @apply w-full h-[100px] p-2 py-4;
   @apply transition-all;
-  --note-color-1: #66cb62;
-  --note-color-2: #62a7cb;
-  --note-color-3: #8b62cb;
-  --note-color-4: #cb6262;
-  --note-color-5: #62cbc9;
-  --note-color-6: #cb9762;
+
+  .note-label {
+    @apply text-ellipsis text-nowrap w-full max-w-full overflow-hidden;
+  }
 
   &:hover {
     @apply shadow-regular;
