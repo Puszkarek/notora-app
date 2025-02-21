@@ -1,0 +1,24 @@
+@for (item of items(); track item.id) {
+  <app-checkbox class="checklist-item" [isChecked]="item.completedAt ? true : false" (clicked)="toggleItem.emit(item)">
+    {{ item.label }}
+  </app-checkbox>
+}
+@if (isAdding() === false) {
+  <button (click)="openNewItemInput()" class="new-item-button">
+    <app-icon iconID="plus"></app-icon>
+    Novo item
+  </button>
+} @else {
+  <div class="new-item-input-container">
+    <input class="new-item-input" #newItemInput type="text" />
+    <button
+      appAction="icon-primary"
+      (click)="addNewItem().execute(newItemInput.value, isAdding)"
+      [isLoading]="addNewItem().isProcessing()">
+      <app-icon iconID="plus" />
+    </button>
+  </div>
+}
+
+<!-- Quick fix for the bottom of the page -->
+<div class="block w-full min-h-20 h-20"></div>
