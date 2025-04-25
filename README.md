@@ -1,79 +1,74 @@
-## Running the project
+# Notora
 
-Run `npm run serve:www` and `npm run serve:api` to be able to access locally.
-Navigate to `http://localhost:4200/`.
+Notora is a modern web application built with Angular that provides a robust and intuitive interface for users. With a focus on responsive design and user experience, Notora delivers a seamless interaction across all devices.
 
-And to login in the interface with your Google account
+## 🌟 Features
 
-The application will automatically reload if you change one of the source files.
+- **Responsive Design**: Optimized experience for both desktop and mobile users
+- **Secure Authentication**: Complete login/logout functionality with token-based security
+- **Modern UI Components**: Includes dropdowns, tables, checkboxes, and more
+- **File Management**: Upload and manage images with built-in validation
+- **Notifications System**: Keep users informed with an intuitive notification service
+- **Form Management**: Comprehensive form handling with multiple states
 
-P.S: You can go to `http://localhost:3333/api/ping` to check if the api is working properly, it's should return a `pong` message with 200 status
+## 🚀 Getting Started
 
-### Project Structure
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Start the development server with `npm run start`
+4. Access the application at `http://localhost:4200`
 
-We are using an file structure inspired in the [Josh Article](https://www.joshwcomeau.com/react/file-structure/), he structure use a more readable way to organize big projects.
-Looks at the following structure:
+## 💻 Technology
 
-```
-app/
-  └─ pages/
-           ├─ auth-page/
-                    └─ auth-form/
-                               └─ auth-header/
-```
+Notora is built with:
 
-Follow this pattern can be confuse to search by a specific component that we not know, besides also will fill the imports with sub-folders very very faster. Instead, we can always group the files by functionality:
+- Angular
+- TypeScript
+- RxJS for reactive programming
+- io-ts for runtime type checking
+- REST API backend
 
-```
-app/
-├── components/
-│           ├── auth-form/
-│           └─ auth-header/
-└── pages/
-			└── auth-page/
-```
+## 📁 Project Structure
 
-You will always know which place search by something
+- **apps/www**: Frontend Angular application
+- **apps/api**: Backend API services
+- **libs/utils**: Shared utility functions
 
-The final structure will look like:
+## 🧩 Components
 
-```
-src/
-├── app/
-│   ├── components/
-│   ├── constants/
-│   ├── directives/
-│   ├── guards/
-│   ├── helpers/
-│   ├── guards/
-│   ├── interfaces/
-│   ├── pages/
-│   ├── pipes/
-│   ├── routes/
-│   ├── services/
-│   ├── stores/
-│   └── utils/
-├── assets/
-└── styles/
-```
+Notora includes a variety of reusable components:
 
-## 💻 Build With
+- Table component for data display
+- Dropdown menus with keyboard navigation
+- Mobile-responsive header
+- File input with image validation
+- Checkbox component
+- And more!
 
-### Frameworks
+## 🔒 Authentication
 
-- [NX](https://nx.dev/ 'NX') - DevTool for managing mono-repos
-- [Angular](https://angular.io/ 'Angular') - Front-end framework
-- [Nest.js](https://nestjs.com/ 'Nest.js') - Back-end framework
+The application features a complete authentication system with:
 
-### Libraries
+- Login functionality
+- Route guards for protected pages
+- Token management
+- Automatic redirection for logged/non-logged users
 
-- [RxJS](https://rxjs.dev/ 'RxJS') - Library for reactive programming
-- [NgRx](https://ngrx.io/ 'NgRx') - Provides reactive state management
-- [Immutable](https://immutable-js.com/ 'Immutable') - Provides persistent Immutable data structures
-- [ESLint](https://eslint.org/ 'ESLint') - Helps maintain our code quality
+## 🔧 Services
 
-### Languages
+- **AuthService**: Handles user authentication
+- **NotificationService**: Manages user notifications
+- **ScreenService**: Detects device size for responsive design
 
-- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML 'HTML')
-- [SCSS](https://sass-lang.com/ 'SCSS')
-- [TypeScript](https://www.typescriptlang.org/ 'TypeScript')
+## 👤 Development
+
+Notora follows modern Angular practices:
+
+- Standalone components
+- Signal-based state management
+- Functional programming patterns
+- Strong typing with TypeScript
+
+---
+
+Experience the power of Notora - where functionality meets design!
