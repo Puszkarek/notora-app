@@ -1,0 +1,40 @@
+<div class="w-full flex justify-between items-center mb-4">
+  <button
+    (click)="delete.execute()"
+    [disabled]="save.isProcessing()"
+    [isLoading]="delete.isProcessing()"
+    appAction="destructive">
+    <app-icon iconID="trash"></app-icon>
+  </button>
+
+  <button (click)="close()" appAction="icon-primary">
+    <app-icon iconID="x"></app-icon>
+  </button>
+</div>
+
+<div class="flex justify-between items-end gap-2 mb-6">
+  <button (click)="toggleCompleted()" [appAction]="formValues().completedAt ? 'primary' : 'outlined'">
+    @if (formValues().completedAt) {
+      <app-icon iconID="check-lg"></app-icon>
+    } @else {
+      <app-icon iconID="dash"></app-icon>
+    }
+  </button>
+  <app-form-field>
+    <label>Label</label>
+    <input [formControl]="form.controls.label" appInput />
+  </app-form-field>
+</div>
+
+<div class="flex flex-col space-y-3">
+  <div class="flex space-x-3">
+    <button
+      (click)="save.execute()"
+      [disabled]="delete.isProcessing()"
+      [isLoading]="save.isProcessing()"
+      appAction="primary"
+      class="flex-1">
+      Save
+    </button>
+  </div>
+</div>

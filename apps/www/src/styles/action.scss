@@ -9,7 +9,7 @@
   @apply bg-purple-500;
 
   &:hover {
-    @apply bg-purple-700;
+    @apply brightness-105 shadow-regular-sm;
   }
 }
 
@@ -19,7 +19,7 @@
   @apply bg-white;
 
   &:hover {
-    @apply bg-grey-100;
+    @apply brightness-105 shadow-regular-sm;
   }
 }
 
@@ -28,7 +28,17 @@
   @apply border-2 border-solid border-black;
 
   &:hover {
-    @apply brightness-95;
+    @apply brightness-105 shadow-regular-sm;
+  }
+}
+
+.action-destructive {
+  @apply text-center text-black font-semibold;
+  @apply border-2 border-solid border-black;
+  @apply text-black bg-red-700;
+
+  &:hover {
+    @apply brightness-105 shadow-regular-sm;
   }
 }
 

@@ -8,6 +8,7 @@ import {
   UpdatableChecklistItem,
 } from '@api-interfaces';
 import { parseChecklistItem } from '@www/app/helpers/parse-checklist-item';
+import { ChecklistItemEntity } from '@www/app/interfaces/checklist-item';
 import { environment } from '@www/environments/environment';
 import * as E from 'fp-ts/es6/Either';
 import { catchError, firstValueFrom, map, of } from 'rxjs';
@@ -17,7 +18,7 @@ export const updateOneChecklistItem = async (
   noteID: ID,
   checklistID: ID,
   data: UpdatableChecklistItem,
-): Promise<E.Either<Error, ChecklistItem>> => {
+): Promise<E.Either<Error, ChecklistItemEntity>> => {
   return await firstValueFrom(
     httpClient
       .patch<ApiResponse<ChecklistItem>>(`${environment.apiHost}/notes/${noteID}/item/${checklistID}`, data, {
@@ -27,7 +28,7 @@ export const updateOneChecklistItem = async (
       })
       .pipe(
         map(({ data }) => {
-          const parsedData = parseChecklistItem(data);
+          const parsedData = parseChecklistItem(noteID, data);
           if (checklistItemCodec.is(parsedData)) {
             return E.right(parsedData);
           }

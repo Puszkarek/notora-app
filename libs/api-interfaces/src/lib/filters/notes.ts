@@ -6,6 +6,12 @@ export type UpdateOneNoteChecklistItemFilter = {
   readonly userID: ID;
 };
 
+export type GetOneNoteChecklistItemFilter = {
+  readonly noteID: ID;
+  readonly checklistItemID: ID;
+  readonly userID: ID;
+};
+
 export type GetOneNoteFilter = {
   readonly noteID: ID;
   readonly userID: ID;

@@ -37,6 +37,6 @@ export class HomePageComponent {
   });
 
   public async ngOnInit(): Promise<void> {
-    await this._notesStore.fetchMine();
+    await this._notesStore.load();
   }
 }

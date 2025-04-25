@@ -1,29 +1,26 @@
-@let note = data();
+@let data = state();
 
-<app-page-header [title]="getTitle(note)">
+<app-page-header [title]="getTitle(data)">
   <a [routerLink]="['/']" appAction="icon-primary" appTooltip="Voltar">
     <app-icon iconID="arrow-right" />
   </a>
 </app-page-header>
 
 <app-page-container>
-  @if (!note || note.state === 'loading') {
+  @if (!data || data.state === 'loading') {
     <app-loading-spinner />
-  } @else if (note.state === 'error') {
-    error
-  } @else if (note.state === 'loaded') {
-    @if (note.data.type === 'checklist') {
-      <app-checklist-note
-        [addNewItem]="addNewItem"
-        [checklist]="note.data"
-        (toggleItem)="toggleChecklistItem($event)" />
+  } @else if (data.state === 'error') {
+    Something went wrong
+  } @else if (data.state === 'loaded') {
+    @if (data.note.type === 'checklist') {
+      <app-checklist-note [baseNote]="data.note" />
     } @else {
       Não implementado
     }
   }
 </app-page-container>
 
-@if (note && note.state === 'loaded') {
+@if (data && data.state === 'loaded') {
   <button
     class="floating-button"
     appAction="icon-primary"
@@ -51,7 +48,7 @@
       <button
         class="dropdown-item"
         appAction="secondary"
-        (click)="deleteNote.execute(note.data.id)"
+        (click)="deleteNote.execute(data.note.id)"
         [isLoading]="deleteNote.isProcessing()"
         >Apagar</button
       >

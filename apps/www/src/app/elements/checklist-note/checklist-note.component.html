@@ -1,6 +1,11 @@
 @for (item of items(); track item.id) {
-  <app-checkbox class="checklist-item" [isChecked]="item.completedAt ? true : false" (clicked)="toggleItem.emit(item)">
-    {{ item.label }}
+  <app-checkbox
+    class="checklist-item"
+    [isChecked]="item.completedAt ? true : false"
+    (clicked)="toggleChecklistItem.execute(item)">
+    <button (click)="openForm(item)">
+      {{ item.label }}
+    </button>
   </app-checkbox>
 }
 @if (isAdding() === false) {
@@ -9,15 +14,15 @@
     Novo item
   </button>
 } @else {
-  <div class="new-item-input-container">
+  <button class="new-item-input-container">
     <input class="new-item-input" #newItemInput type="text" />
     <button
       appAction="icon-primary"
-      (click)="addNewItem().execute(newItemInput.value, isAdding)"
-      [isLoading]="addNewItem().isProcessing()">
+      (click)="addNewItem.execute(newItemInput.value, isAdding)"
+      [isLoading]="addNewItem.isProcessing()">
       <app-icon iconID="plus" />
     </button>
-  </div>
+  </button>
 }
 
 <!-- Quick fix for the bottom of the page -->

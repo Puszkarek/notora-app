@@ -34,7 +34,6 @@ export class NotesListComponent {
   // TODO: add color to the note
   public getNextColor(): string {
     const color = this.colors[this._colorIndex] ?? '#66cb62';
-    console.log('color', color);
     this._colorIndex = (this._colorIndex + 1) % this.colors.length;
     return color;
   }

@@ -56,7 +56,7 @@ export class AuthService {
 
             return userO.value;
           },
-          () => EXCEPTIONS.bad('Failed to create user'),
+          error => EXCEPTIONS.to.bad(error),
         ),
       ),
       TE.chain(loggedUser =>

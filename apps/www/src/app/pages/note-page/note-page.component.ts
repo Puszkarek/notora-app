@@ -1,29 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
-import { ModalService } from '@modal';
-import { traceAction } from '@www/app/helpers/trace-action';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { filter, first, firstValueFrom, map, switchMap } from 'rxjs';
+import { BaseNote } from '@api-interfaces';
+import { ModalService } from '@modal';
 import { isString } from '@utils';
-import { PageContainerComponent } from '../../primitives/page-container/page-container.component';
-import { LoadingSpinnerComponent } from '../../primitives/loading-spinner/loading-spinner.component';
-import { PageHeaderComponent } from '../page-header/page-header.component';
 import { ActionDirective } from '@www/app/directives/action.directive';
-import { IconComponent } from '../../primitives/icon/icon.component';
-import { ChecklistItem, CheckListNote, TextNote } from '@api-interfaces';
-import * as O from 'fp-ts/es6/Option';
-import { TooltipDirective } from '@www/app/directives/tooltip.directive';
-import { flow } from 'fp-ts/es6/function';
-import { DropdownComponent } from '../../primitives/dropdown/dropdown.component';
 import { DropdownTriggerDirective } from '@www/app/directives/dropdown-trigger.directive';
+import { TooltipDirective } from '@www/app/directives/tooltip.directive';
+import { ChecklistNoteComponent } from '@www/app/elements/checklist-note/checklist-note.component';
+import { traceAction } from '@www/app/helpers/trace-action';
 import {
   ConfirmationModalComponentInput,
   ConfirmationModalComponentOutput,
 } from '@www/app/modals/confirmation-modal/confirmation-modal.component';
-import { NotesStore } from '@www/app/stores/notes.store';
 import { NotificationService } from '@www/app/services/notification.service';
+import { NotesStore } from '@www/app/stores/notes.store';
 import * as E from 'fp-ts/es6/Either';
-import { ChecklistNoteComponent } from '@www/app/elements/checklist-note/checklist-note.component';
+import { filter, firstValueFrom, map } from 'rxjs';
+import { DropdownComponent } from '../../primitives/dropdown/dropdown.component';
+import { IconComponent } from '../../primitives/icon/icon.component';
+import { LoadingSpinnerComponent } from '../../primitives/loading-spinner/loading-spinner.component';
+import { PageContainerComponent } from '../../primitives/page-container/page-container.component';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 
 type State =
   | {
@@ -31,7 +30,7 @@ type State =
     }
   | {
       state: 'loaded';
-      data: TextNote | CheckListNote;
+      note: BaseNote;
     };
 
 @Component({
@@ -60,33 +59,6 @@ export default class NotePageComponent {
   private readonly _modalService = inject(ModalService);
   private readonly _notesStore = inject(NotesStore);
 
-  private readonly _note = signal<State>({ state: 'loading' });
-  public readonly data = this._note.asReadonly();
-
-  public readonly addNewItem = traceAction(async (itemLabel: string, isAdding: WritableSignal<boolean>) => {
-    const note = this.data();
-    if (!note || note.state !== 'loaded' || note.data.type !== 'checklist') {
-      this._notificationService.error('Não foi possível adicionar o item');
-      return;
-    }
-
-    const result = await this._notesStore.addOneChecklistItem(note.data.id, {
-      label: itemLabel,
-    });
-    if (E.isLeft(result)) {
-      this._notificationService.error('Falha ao adicionar item');
-      return;
-    }
-
-    const updatedNote: CheckListNote = {
-      ...note.data,
-      items: [...note.data.items, result.right],
-    };
-    this._note.set({ state: 'loaded', data: updatedNote });
-    this._notificationService.success('Item adicionado com sucesso');
-    isAdding.set(false);
-  });
-
   public readonly deleteNote = traceAction(async (noteID: string) => {
     const component = await import('../../modals/confirmation-modal/confirmation-modal.component');
     const ref = this._modalService.open<ConfirmationModalComponentOutput, ConfirmationModalComponentInput>(
@@ -109,66 +81,48 @@ export default class NotePageComponent {
   });
 
   public readonly shareList = traceAction(async () => {
-    const note = this.data();
-    if (!note || note.state !== 'loaded') {
+    const data = this.state();
+    if (!data || data.state !== 'loaded') {
       this._notificationService.error('Não foi possível compartilhar a lista');
       return;
     }
-    const url = `${location.origin}/notes/${note.data.id}/share`;
+    const url = `${location.origin}/notes/${data.note.id}/share`;
     await navigator.clipboard.writeText(url);
     this._notificationService.success('Link copiado para a área de transferência');
   });
 
+  private readonly _routeID$ = this._activatedRoute.params.pipe(
+    map(({ id }) => id),
+    filter(isString),
+  );
+  private readonly routeID = toSignal(this._routeID$);
+
+  public readonly state = computed<State>(() => {
+    const routeID = this.routeID();
+
+    const data = this._notesStore.all().find(n => n.id === routeID);
+    if (this._notesStore.isLoading() && !this._notesStore.isLoaded()) {
+      return { state: 'loading' };
+    }
+    if (!data) {
+      return { state: 'error' };
+    }
+
+    return {
+      state: 'loaded',
+      note: data,
+    };
+  });
+
   public async ngOnInit(): Promise<void> {
-    this._activatedRoute.params
-      .pipe(
-        map(({ id }) => id),
-        filter(isString),
-        switchMap(async id => await this._notesStore.fetchOneWithDetails(id)),
-        map(flow(O.fromEither, O.toNullable)),
-        map((data): State => (data ? { state: 'loaded', data } : { state: 'error' })),
-        first(),
-      )
-      .subscribe(data => {
-        this._note.set(data);
-      });
+    await this._notesStore.load();
   }
 
-  public getTitle(note: State | null): string {
-    if (note?.state !== 'loaded') {
+  public getTitle(data: State | null): string {
+    if (data?.state !== 'loaded') {
       return 'Sua nota';
     }
 
-    return note.data.label;
+    return data.note.label;
   }
-
-  public readonly toggleChecklistItem = async (item: ChecklistItem) => {
-    const note = this.data();
-    if (!note || note.state !== 'loaded' || note.data.type !== 'checklist') {
-      this._notificationService.error('Não foi possível adicionar o item');
-      return;
-    }
-
-    this._notificationService.loading();
-    const completedAt = item.completedAt ? null : new Date();
-    const result = await this._notesStore.updateOneChecklistItem(note.data.id, item.id, {
-      completedAt,
-    });
-    if (E.isLeft(result)) {
-      this._notificationService.error('Falha ao adicionar item');
-      return;
-    }
-
-    const updatedNote: CheckListNote = {
-      ...note.data,
-      items: note.data.items.map(item => {
-        if (item.id === result.right.id) {
-          return result.right;
-        }
-        return item;
-      }),
-    };
-    this._note.set({ state: 'loaded', data: updatedNote });
-    this._notificationService.success('Item atualizado com sucesso');
-  };
 }

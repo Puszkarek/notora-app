@@ -129,14 +129,14 @@ export class NotesController {
     return { data: await task() };
   }
 
-  @Get(':noteID')
+  @Get(':noteID/checklist-items')
   @UseGuards(AuthGuard)
-  public async getOneWithDetails(
+  public async getAllChecklistItemsFromNote(
     @Param('noteID') noteID: string,
     @UserParam() { id }: LoggedUser,
-  ): Promise<ApiResponse<CheckListNote | TextNote>> {
+  ): Promise<ApiResponse<Array<ChecklistItem>>> {
     const task = pipe(
-      this._notesService.getOneWithDetails({
+      this._notesService.getAllChecklistItemsFromNote({
         noteID,
         userID: id,
       }),
@@ -152,6 +152,25 @@ export class NotesController {
     const task = pipe(
       this._notesService.deleteOne({
         noteID,
+        userID: id,
+      }),
+      executeTaskEither,
+    );
+
+    return { data: await task() };
+  }
+
+  @Delete(':noteID/item/:itemID')
+  @UseGuards(AuthGuard)
+  public async deleteOneChecklistItems(
+    @Param('noteID') noteID: string,
+    @Param('itemID') checklistItemID: string,
+    @UserParam() { id }: LoggedUser,
+  ): Promise<ApiResponse<void>> {
+    const task = pipe(
+      this._notesService.deleteOneChecklistItems({
+        noteID,
+        checklistItemID,
         userID: id,
       }),
       executeTaskEither,

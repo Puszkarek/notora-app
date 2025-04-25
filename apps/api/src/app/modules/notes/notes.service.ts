@@ -2,13 +2,12 @@
 import {
   BaseNote,
   ChecklistItem,
-  CheckListNote,
   CreatableChecklistItem,
   CreatableNote,
   CreateOneNoteFilter,
   GetMyNotesFilter,
+  GetOneNoteChecklistItemFilter,
   GetOneNoteFilter,
-  TextNote,
   UpdatableChecklistItem,
   UpdateOneNoteChecklistItemFilter,
 } from '@api-interfaces';
@@ -50,11 +49,15 @@ export class NotesService {
     return pipe(filters, this._notesRepository.findMany);
   };
 
-  public getOneWithDetails = (filters: GetOneNoteFilter): TaskEither<Exception, TextNote | CheckListNote> => {
-    return pipe(filters, this._notesRepository.findOneWithDetails);
+  public getAllChecklistItemsFromNote = (filters: GetOneNoteFilter): TaskEither<Exception, Array<ChecklistItem>> => {
+    return pipe(filters, this._notesRepository.findAllChecklistItems);
   };
 
   public deleteOne = (filters: GetOneNoteFilter): TaskEither<Exception, void> => {
     return pipe(filters, this._notesRepository.deleteOne);
+  };
+
+  public deleteOneChecklistItems = (filters: GetOneNoteChecklistItemFilter): TaskEither<Exception, void> => {
+    return pipe(filters, this._notesRepository.deleteOneChecklistItem);
   };
 }

@@ -5,7 +5,9 @@ import { Directive, ElementRef, effect, input } from '@angular/core';
   standalone: true,
 })
 export class ActionDirective {
-  public readonly styleType = input.required<'primary' | 'secondary' | 'icon-primary' | 'icon-secondary' | 'outlined'>({
+  public readonly styleType = input.required<
+    'primary' | 'secondary' | 'icon-primary' | 'icon-secondary' | 'destructive' | 'outlined'
+  >({
     alias: 'appAction',
   });
 

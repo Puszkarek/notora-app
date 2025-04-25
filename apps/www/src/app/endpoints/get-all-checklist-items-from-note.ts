@@ -1,30 +1,27 @@
 import type { HttpClient } from '@angular/common/http';
-import { ApiResponse, CheckListNote, checklistNoteCodec, ID, TextNote, textNoteCodec } from '@api-interfaces';
-import { parseChecklistNote } from '@www/app/helpers/parse-checklist-note';
+import { ApiResponse, ChecklistItem, checklistItemCodec, ID } from '@api-interfaces';
+import { parseChecklistItem } from '@www/app/helpers/parse-checklist-item';
+import { ChecklistItemEntity } from '@www/app/interfaces/checklist-item';
 import { environment } from '@www/environments/environment';
 import * as E from 'fp-ts/es6/Either';
 import { catchError, firstValueFrom, map, of } from 'rxjs';
 
-export const getOneNoteWithDetails = async (
+export const getAllChecklistItemsFromNote = async (
   httpClient: HttpClient,
   noteID: ID,
-): Promise<E.Either<Error, CheckListNote | TextNote>> => {
+): Promise<E.Either<Error, Array<ChecklistItemEntity>>> => {
   return await firstValueFrom(
     httpClient
-      .get<ApiResponse<CheckListNote | TextNote>>(`${environment.apiHost}/notes/${noteID}`, {
+      .get<ApiResponse<Array<ChecklistItem>>>(`${environment.apiHost}/notes/${noteID}/checklist-items`, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .pipe(
         map(({ data }) => {
-          if (data.type === 'checklist') {
-            const parsedData = parseChecklistNote(data);
-            if (checklistNoteCodec.is(parsedData)) {
-              return E.right(data);
-            }
-          } else if (textNoteCodec.is(data)) {
-            return E.right(data);
+          const parsedData = data.map(item => parseChecklistItem(noteID, item));
+          if (parsedData.every(checklistItemCodec.is)) {
+            return E.right(parsedData);
           }
           console.error('Invalid response', data);
           return E.left(new Error('Invalid response'));

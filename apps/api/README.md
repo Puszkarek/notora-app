@@ -31,7 +31,7 @@ docker buildx prune -f
 - To debug you can try to run the command:
 
 ```bash
-docker build -t rma-api  -f Dockerfile.api.alpha .
+docker build -t notora-api  -f Dockerfile.api.alpha .
 ```
 
 # Prisma
@@ -41,7 +41,7 @@ docker build -t rma-api  -f Dockerfile.api.alpha .
 First, let's create a docker container with the database:
 
 ```bash
-docker run -d --name rma -p 5455:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin postgres
+docker run -d --name notora -p 5455:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin postgres
 ```
 
 Then, in order to compile the project, we need to run a command to generate our types from prisma schema:

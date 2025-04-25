@@ -2,14 +2,13 @@ import {
   AuthToken,
   BaseNote,
   ChecklistItem,
-  CheckListNote,
   CreatableChecklistItem,
   CreatableNote,
   CreateOneNoteFilter,
   GetMyNotesFilter,
+  GetOneNoteChecklistItemFilter,
   GetOneNoteFilter,
   ID,
-  TextNote,
   UpdatableChecklistItem,
   UpdateOneNoteChecklistItemFilter,
   User,
@@ -19,7 +18,7 @@ import { EXCEPTIONS } from '@server/app/helpers/error';
 import { Exception } from '@server/app/interfaces/error';
 import { PrismaService } from '@server/app/modules/prisma';
 import { omitUndefined } from '@utils';
-import { taskEither as TE, taskOption as TO } from 'fp-ts';
+import { taskEither as TE } from 'fp-ts';
 import { flow, pipe } from 'fp-ts/lib/function';
 import { TaskOption } from 'fp-ts/lib/TaskOption';
 import { uuidv7 } from 'uuidv7';
@@ -38,28 +37,23 @@ export class NotesRepository {
 
   // * Find
 
-  public readonly findOneWithDetails = ({
+  public readonly findAllChecklistItems = ({
     userID,
     noteID,
-  }: GetOneNoteFilter): TE.TaskEither<Exception, CheckListNote | TextNote> => {
+  }: GetOneNoteFilter): TE.TaskEither<Exception, Array<ChecklistItem>> => {
     return pipe(
       TE.tryCatch(async () => {
         return await this._prismaClient.baseNote.findUnique({
           select: {
-            ...this._selectParameters,
             checklistNote: {
               select: {
                 items: true,
               },
             },
-            textNote: {
-              select: {
-                content: true,
-              },
-            },
           },
           where: {
             id: noteID,
+            type: 'checklist',
             users: {
               some: {
                 id: userID,
@@ -70,21 +64,7 @@ export class NotesRepository {
       }, EXCEPTIONS.to.bad),
       TE.chain(flow(TE.fromNullable(EXCEPTIONS.notFound('Note not found')))),
       TE.map(rawData => {
-        const data: TextNote | CheckListNote =
-          rawData.type === 'checklist'
-            ? {
-                id: rawData.id,
-                label: rawData.label,
-                type: rawData.type,
-                items: rawData.checklistNote?.items ?? [],
-              }
-            : {
-                id: rawData.id,
-                label: rawData.label,
-                type: rawData.type,
-                content: rawData.textNote?.content ?? '',
-              };
-
+        const data: Array<ChecklistItem> = rawData.checklistNote?.items ?? [];
         return data;
       }),
     );
@@ -219,6 +199,35 @@ export class NotesRepository {
             users: {
               some: {
                 id: userID,
+              },
+            },
+          },
+        });
+      }, EXCEPTIONS.to.bad),
+    );
+  };
+
+  public readonly deleteOneChecklistItem = ({
+    userID,
+    noteID,
+    checklistItemID,
+  }: GetOneNoteChecklistItemFilter): TE.TaskEither<Exception, void> => {
+    return pipe(
+      TE.tryCatch(async () => {
+        await this._prismaClient.checklistItem.delete({
+          select: {
+            id: true,
+          },
+          where: {
+            id: checklistItemID,
+            note: {
+              id: noteID,
+              baseNote: {
+                users: {
+                  some: {
+                    id: userID,
+                  },
+                },
               },
             },
           },

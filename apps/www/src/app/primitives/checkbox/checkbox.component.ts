@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, HostListener, input, output, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IconComponent } from '@www/app/primitives/icon/icon.component';
-import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-checkbox',
