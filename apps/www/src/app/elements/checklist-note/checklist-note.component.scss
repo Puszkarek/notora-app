@@ -1,6 +1,13 @@
 :host {
   @apply w-full h-full pt-alley;
   @apply flex flex-col justify-start items-stretch;
+  // TODO: Quick fix for scroll not appearing
+  @apply mb-40;
+}
+
+.loading-container {
+  @apply w-full h-full flex justify-center items-center;
+  min-height: 300px;
 }
 
 .new-item-input-container,

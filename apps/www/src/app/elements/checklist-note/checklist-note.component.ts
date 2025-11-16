@@ -28,13 +28,14 @@ import { sleep } from '@www/app/utils/sleep';
 import * as E from 'fp-ts/es6/Either';
 import { sortBy } from 'remeda';
 import { CheckboxComponent } from '../../primitives/checkbox/checkbox.component';
+import { LoadingSpinnerComponent } from "@www/app/primitives/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-checklist-note',
   templateUrl: './checklist-note.component.html',
   styleUrls: ['./checklist-note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ActionDirective, IconComponent, ReactiveFormsModule, RouterModule, CheckboxComponent],
+  imports: [CommonModule, ActionDirective, IconComponent, ReactiveFormsModule, RouterModule, CheckboxComponent, LoadingSpinnerComponent],
 })
 export class ChecklistNoteComponent implements OnInit {
   private readonly _checklistItemsStore = inject(ChecklistItemsStore);
@@ -47,6 +48,7 @@ export class ChecklistNoteComponent implements OnInit {
 
   public readonly baseNote = input.required<Omit<BaseNote, 'type'>>();
   public readonly isAdding = signal(false);
+  public readonly isLoading = signal(true);
 
   public items = computed(() => {
     const items = this.checklistItems();
@@ -63,6 +65,7 @@ export class ChecklistNoteComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     // TODO: make it reactive
     await this._checklistItemsStore.fetchAllFromNote(this.baseNote().id);
+    this.isLoading.set(false);
   }
 
   public async openNewItemInput(): Promise<void> {

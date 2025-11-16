@@ -1,19 +1,57 @@
 :host {
-  @apply w-full h-full pt-alley;
-  @apply flex flex-col justify-start items-stretch;
+  @apply block w-full h-full pt-alley;
+  @apply flex flex-col justify-start items-stretch gap-4;
+  // TODO: Quick fix for scroll not appearing
+  @apply mb-40;
 }
 
-.text-note-textarea {
-  @apply w-full h-full;
-  @apply p-4 text-sm;
-  @apply bg-transparent;
-  @apply border-2 border-solid border-black;
-  @apply resize-none;
-  @apply focus:outline-none focus:ring-2 focus:ring-black;
-  @apply font-normal;
+.loading-container {
+  @apply w-full h-full flex justify-center items-center;
   min-height: 300px;
 }
 
-.text-note-textarea::placeholder {
-  @apply text-grey-500;
+.text-note-edit-container {
+  @apply flex flex-col w-full h-full;
+  @apply justify-between;
+}
+
+// * Textarea (Edit Mode)
+.text-note-textarea {
+  @apply w-full h-full;
+  @apply p-2 text-sm leading-relaxed;
+  @apply bg-transparent;
+  @apply border-2 border-solid border-black;
+  @apply resize-none;
+  @apply transition-all duration-200;
+
+  &:focus,
+  &:active,
+  &:focus-visible {
+    @apply outline-purple-500;
+  }
+
+  &::placeholder {
+    @apply text-grey-500;
+  }
+}
+
+// * Display Mode
+.text-note {
+  @apply w-full text-left;
+  @apply p-2 text-sm leading-relaxed;
+  @apply transition-all duration-200;
+  @apply whitespace-pre-wrap break-words;
+  @apply border-2 border-solid border-transparent;
+}
+
+.open-edit-button {
+  @apply fixed bottom-4 left-4;
+  @apply bg-blue-700;
+}
+
+// * Action Container
+.action-container {
+  @apply flex justify-end items-center gap-3;
+  @apply w-full;
+  @apply pt-2;
 }

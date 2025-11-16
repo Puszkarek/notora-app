@@ -4,20 +4,40 @@
   </div>
 } @else {
   @if (isEditing()) {
-    <textarea
-      class="text-note-textarea"
-      [value]="content()"
-      (input)="onTextChange($event)"
-      (blur)="onBlur()"
-      placeholder="Escreva sua nota aqui..."></textarea>
-    <div class="action-container">
-      <button appAction="primary">Cancelar</button>
-      <button appAction="primary">Salvar</button>
+    <div class="text-note-edit-container">
+      <textarea
+        class="text-note-textarea"
+        [value]="content()"
+        (input)="onTextChange($event)"
+        autofocus
+        placeholder="Escreva sua nota aqui..."></textarea>
+
+      <div class="action-container">
+        <button (click)="cancelEditing()" [disabled]="saveContent.isProcessing()" appAction="secondary" class="flex-1">
+          Cancelar
+        </button>
+        <button
+          (click)="saveContent.execute()"
+          [isLoading]="saveContent.isProcessing()"
+          appAction="primary"
+          class="flex-1">
+          <app-icon iconID="check-lg"></app-icon>
+          Salvar
+        </button>
+      </div>
     </div>
   } @else {
-    <button (click)="isEditing.set(true)" class="text-note-content">{{ content() }}</button>
+    @if (noteContent()) {
+      <div class="text-note">{{ noteContent() }}</div>
+
+      <button (click)="startEditing()" appAction="icon-secondary" class="open-edit-button">
+        <app-icon iconID="pen" />
+      </button>
+    } @else {
+      <button (click)="startEditing()" appAction="primary">
+        <app-icon iconID="plus"></app-icon>
+        <span>Clique para escrever sua nota</span>
+      </button>
+    }
   }
 }
-
-<!-- Quick fix for the bottom of the page -->
-<div class="block w-full min-h-20 h-20"></div>

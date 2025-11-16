@@ -1,6 +1,7 @@
 :host {
   @apply flex flex-col;
-  @apply h-full w-[90%] max-w-[1200px] m-auto;
+  @apply h-full w-full max-w-[1200px] m-auto;
+  @apply p-[5%] overflow-auto;
   justify-content: safe center;
   align-items: safe center;
 }
