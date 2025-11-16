@@ -10,6 +10,7 @@ import {
   GetOneNoteFilter,
   ID,
   UpdatableChecklistItem,
+  UpdatableTextNote,
   UpdateOneNoteChecklistItemFilter,
   User,
 } from '@api-interfaces';
@@ -70,6 +71,40 @@ export class NotesRepository {
     );
   };
 
+  public readonly findOneTextNote = ({
+    userID,
+    noteID,
+  }: GetOneNoteFilter): TE.TaskEither<Exception, { content: string }> => {
+    return pipe(
+      TE.tryCatch(async () => {
+        return await this._prismaClient.baseNote.findUnique({
+          select: {
+            textNote: {
+              select: {
+                content: true,
+              },
+            },
+          },
+          where: {
+            id: noteID,
+            type: 'text',
+            users: {
+              some: {
+                id: userID,
+              },
+            },
+          },
+        });
+      }, EXCEPTIONS.to.bad),
+      TE.chain(flow(TE.fromNullable(EXCEPTIONS.notFound('Note not found')))),
+      TE.chain(rawData =>
+        rawData.textNote
+          ? TE.right({ content: rawData.textNote.content })
+          : TE.left(EXCEPTIONS.notFound('Text note content not found')),
+      ),
+    );
+  };
+
   public readonly findMany = ({ userID }: GetMyNotesFilter): TE.TaskEither<Exception, Array<BaseNote>> => {
     return pipe(
       TE.tryCatch(async () => {
@@ -121,6 +156,32 @@ export class NotesRepository {
         });
       }, EXCEPTIONS.to.bad),
       TE.chain(flow(TE.fromNullable(EXCEPTIONS.notFound('User not found')))),
+    );
+  };
+
+  public readonly updateOneTextNote = (
+    { userID, noteID }: GetOneNoteFilter,
+    data: UpdatableTextNote,
+  ): TE.TaskEither<Exception, void> => {
+    return pipe(
+      TE.tryCatch(async () => {
+        await this._prismaClient.textNote.update({
+          select: {
+            id: true,
+          },
+          where: {
+            id: noteID,
+            baseNote: {
+              users: {
+                some: {
+                  id: userID,
+                },
+              },
+            },
+          },
+          data: omitUndefined(data),
+        });
+      }, EXCEPTIONS.to.bad),
     );
   };
 

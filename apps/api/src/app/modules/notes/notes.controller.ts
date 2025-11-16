@@ -2,12 +2,12 @@ import {
   ApiResponse,
   BaseNote,
   ChecklistItem,
-  CheckListNote,
   creatableChecklistItemCodec,
   creatableNoteCodec,
-  TextNote,
   UpdatableChecklistItem,
   updatableChecklistItemCodec,
+  UpdatableTextNote,
+  updatableTextNoteCodec,
 } from '@api-interfaces';
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@server/app/guards/auth';
@@ -114,6 +114,31 @@ export class NotesController {
     return { data: await task() };
   }
 
+  @Patch(':noteID')
+  @UseGuards(AuthGuard)
+  public async updateOneTextNote(
+    @Param('noteID') noteID: string,
+    @UserParam() loggedUser: LoggedUser,
+    @Body() body: unknown,
+  ): Promise<void> {
+    const task = pipe(
+      body,
+      TE.fromPredicate(updatableTextNoteCodec.is, () => EXCEPTIONS.bad('Invalid Body')),
+      TE.chain(body =>
+        this._notesService.updateOneTextNote(
+          {
+            noteID,
+            userID: loggedUser.id,
+          },
+          body,
+        ),
+      ),
+      executeTaskEither,
+    );
+
+    await task();
+  }
+
   // * Getters
 
   @Get('')
@@ -137,6 +162,23 @@ export class NotesController {
   ): Promise<ApiResponse<Array<ChecklistItem>>> {
     const task = pipe(
       this._notesService.getAllChecklistItemsFromNote({
+        noteID,
+        userID: id,
+      }),
+      executeTaskEither,
+    );
+
+    return { data: await task() };
+  }
+
+  @Get(':noteID/content')
+  @UseGuards(AuthGuard)
+  public async getOneTextNote(
+    @Param('noteID') noteID: string,
+    @UserParam() { id }: LoggedUser,
+  ): Promise<ApiResponse<{ content: string }>> {
+    const task = pipe(
+      this._notesService.getOneTextNote({
         noteID,
         userID: id,
       }),

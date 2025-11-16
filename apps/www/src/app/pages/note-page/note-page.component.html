@@ -14,6 +14,8 @@
   } @else if (data.state === 'loaded') {
     @if (data.note.type === 'checklist') {
       <app-checklist-note [baseNote]="data.note" />
+    } @else if (data.note.type === 'text') {
+      <app-text-note [baseNote]="data.note" />
     } @else {
       Não implementado
     }

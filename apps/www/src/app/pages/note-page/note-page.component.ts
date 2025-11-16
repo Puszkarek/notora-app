@@ -9,6 +9,7 @@ import { ActionDirective } from '@www/app/directives/action.directive';
 import { DropdownTriggerDirective } from '@www/app/directives/dropdown-trigger.directive';
 import { TooltipDirective } from '@www/app/directives/tooltip.directive';
 import { ChecklistNoteComponent } from '@www/app/elements/checklist-note/checklist-note.component';
+import { TextNoteComponent } from '@www/app/elements/text-note/text-note.component';
 import { traceAction } from '@www/app/helpers/trace-action';
 import {
   ConfirmationModalComponentInput,
@@ -41,6 +42,7 @@ type State =
   imports: [
     CommonModule,
     ChecklistNoteComponent,
+    TextNoteComponent,
     ActionDirective,
     TooltipDirective,
     DropdownTriggerDirective,

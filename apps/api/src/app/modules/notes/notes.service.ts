@@ -9,6 +9,7 @@ import {
   GetOneNoteChecklistItemFilter,
   GetOneNoteFilter,
   UpdatableChecklistItem,
+  UpdatableTextNote,
   UpdateOneNoteChecklistItemFilter,
 } from '@api-interfaces';
 import { Injectable, Scope } from '@nestjs/common';
@@ -41,6 +42,10 @@ export class NotesService {
     return this._notesRepository.updateOneChecklistItem(filters, data);
   };
 
+  public updateOneTextNote = (filters: GetOneNoteFilter, data: UpdatableTextNote): TaskEither<Exception, void> => {
+    return this._notesRepository.updateOneTextNote(filters, data);
+  };
+
   public createOne = (filters: CreateOneNoteFilter, data: CreatableNote): TaskEither<Exception, BaseNote> => {
     return this._notesRepository.createOne(filters, data);
   };
@@ -51,6 +56,10 @@ export class NotesService {
 
   public getAllChecklistItemsFromNote = (filters: GetOneNoteFilter): TaskEither<Exception, Array<ChecklistItem>> => {
     return pipe(filters, this._notesRepository.findAllChecklistItems);
+  };
+
+  public getOneTextNote = (filters: GetOneNoteFilter): TaskEither<Exception, { content: string }> => {
+    return pipe(filters, this._notesRepository.findOneTextNote);
   };
 
   public deleteOne = (filters: GetOneNoteFilter): TaskEither<Exception, void> => {

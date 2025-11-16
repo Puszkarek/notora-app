@@ -63,6 +63,26 @@
   @apply shadow-regular;
 }
 
+.action-loading {
+  @apply text-transparent relative;
+  cursor: wait;
+
+  &::after {
+    content: '';
+    transform: translate(-50%, -50%);
+    @apply absolute w-5 h-5 top-2/4 left-2/4;
+    @apply rounded-full border-2 border-solid border-transparent;
+    @apply border-t-black border-b-black;
+    animation: spin 0.6s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 /* button {
   &:active,
   &:focus {

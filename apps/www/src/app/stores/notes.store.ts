@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Signal } from '@angular/core';
 import { BaseNote, CreatableNote, ID } from '@api-interfaces';
 import { patchState, signalStore, type, withComputed, withMethods, withState } from '@ngrx/signals';
-import { addEntities, addEntity, removeEntity, updateEntity, withEntities } from '@ngrx/signals/entities';
+import { addEntities, addEntity, removeEntity, withEntities } from '@ngrx/signals/entities';
 import { createOneNote } from '@www/app/endpoints/create-one-note';
 import * as E from 'fp-ts/es6/Either';
 import * as O from 'fp-ts/es6/Option';

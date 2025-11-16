@@ -1,0 +1,23 @@
+@if (isLoading()) {
+  <div class="loading-container">
+    <app-loading-spinner />
+  </div>
+} @else {
+  @if (isEditing()) {
+    <textarea
+      class="text-note-textarea"
+      [value]="content()"
+      (input)="onTextChange($event)"
+      (blur)="onBlur()"
+      placeholder="Escreva sua nota aqui..."></textarea>
+    <div class="action-container">
+      <button appAction="primary">Cancelar</button>
+      <button appAction="primary">Salvar</button>
+    </div>
+  } @else {
+    <button (click)="isEditing.set(true)" class="text-note-content">{{ content() }}</button>
+  }
+}
+
+<!-- Quick fix for the bottom of the page -->
+<div class="block w-full min-h-20 h-20"></div>
